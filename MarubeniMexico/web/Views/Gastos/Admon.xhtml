@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+
+
+    </h:head>
+    <h:body>
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h2>ADMINISTRACIÓN DE PÓLIZAS
+                    <img src="../../Images/poliza.ico" style="width: 120px; height: 120px" alt=""/>
+                </h2>
+                <br></br>
+
+                <h:form id="frmPol"> 
+                    <p:panel header="" style="margin: 0 auto; text-align: center;">
+                        <p:layout id="capaDatosViaje" style="width: 100%; height: 300px;">
+                            <p:layoutUnit id="datosConcepto" position="center" style="padding: 5px; text-align: center;">
+                                <p:dataTable id="tablaPoliza" paginator="true" paginatorPosition="top" var="tbl" value="#{admonBean.listaViaje}">
+                                    <p:column headerText="Folio">
+                                        <h:outputText value="#{tbl.departamento.substring(0,2)} #{tbl.nombreViajero} #{tbl.fechaAno} #{tbl.folioUsuario}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Nombre">
+                                        <h:outputText value="#{tbl.nombreViajero}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Folio usuario">
+                                        <h:outputText value="#{tbl.folioUsuario}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha">
+                                        <h:outputText value="#{tbl.fechaDocumento}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Oficina">
+                                        <h:outputText value="#{tbl.oficina}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Departamento">
+                                        <h:outputText value="#{tbl.departamento}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Origen">
+                                        <h:outputText value="#{tbl.origen}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Destino">
+                                        <h:outputText value="#{tbl.destino}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Propósito">
+                                        <h:outputText value="#{tbl.proposito}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha de salida">
+                                        <h:outputText value="#{tbl.fechaOrigen}"></h:outputText>
+                                    </p:column>                                                                    
+                                    <p:column headerText="Fecha de regreso">
+                                        <h:outputText value="#{tbl.fechaLlegada}"></h:outputText>
+                                    </p:column>                                           
+                                    <p:column headerText="Status">
+                                        <h:outputText value="#{tbl.status}"></h:outputText>
+                                    </p:column>                       
+                                    <p:column headerText="Días de viaje">
+                                        <h:outputText value="#{tbl.dias}"></h:outputText>
+                                    </p:column>                       
+                                    <p:column headerText="Anticipo">
+                                        <h:outputText value="#{tbl.totalAsignado}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Cambiar Status" style="width: 65px;">
+<!--                                        <p:commandButton id="track2" disabled="#{!empty PerfilBean.listaUsuario}" style="height: 35px; width: 60px; background-image: url('../..//Images/procesar.png');background-size: 25px; background-repeat: no-repeat" value="" oncomplete="PF('dialogProcesarPoliza').show();"-->
+                                        <p:commandButton id="track2"  style="height: 28px; width: 60px; background-image: url('../..//Images/procesar.ico');background-size: 25px; background-repeat: no-repeat" value="" oncomplete="PF('dialogProcesarPoliza').show();"
+                                                         update="frmViewPol">
+                                            <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>
+                                        <p:tooltip id="toolTipTrack2" for="track2" value="Procesar" trackMouse="true" />
+                                    </p:column>
+                                    <p:column headerText="Ver Reporte" style="width: 65px;">
+                                        <p:commandButton id="track" style="height: 28px; width: 60px; background-image: url('../..//Images/ver.ico');background-size: 25px; background-repeat: no-repeat" value="" oncomplete="PF('dlgReporte').show();"                                                 
+                                                         update="frmViewPol">
+                                            <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>
+                                        <p:tooltip id="toolTipTrack" for="track" value="Ver Reporte" trackMouse="true" />
+                                    </p:column>
+
+                                    <p:column headerText="Detalle póliza" style="width: 65px;">
+                                        <p:commandButton id="track1" style="height: 28px; width: 60px; background-image: url('../..//Images/detail.ico');background-size: 25px; background-repeat: no-repeat" value="" 
+                                                         oncomplete="PF('dlgtest').show();"
+                                                         update="test">
+                                            <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>                  
+                                        </p:commandButton>
+                                        <p:tooltip id="toolTipTrack1" for="track1" value="Detalle Póliza" trackMouse="true" />
+                                    </p:column>
+                                    <p:column headerText="Layout SAP" style="width: 65px;">
+                                        <p:commandButton id="lt" style="height: 28px; width: 60px; background-image: url('../..//Images/text.ico');background-size: 25px; background-repeat: no-repeat" value="" oncomplete="PF('dlgDetailPoliza').show();"
+                                                         update="frmViewDetail">
+                                            <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>                  
+                                        </p:commandButton>
+                                        <p:tooltip id="ttlayout" for="lt" value="Layout SAP" trackMouse="true" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:layoutUnit>                              
+                        </p:layout>
+                    </p:panel>
+                </h:form>
+
+                <h:form id="frmViewPol">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgViewPol" header="Ver reporte de gastos" widgetVar="dlgReporte" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre: "></p:outputLabel>
+                            <p:inputText id="codigo" style="width: 100px;" value="#{viajeBean.viaje.nombreViajero}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio: "></p:outputLabel>
+                            <p:inputText id="folio" style="width: 100px;" value="#{viajeBean.viaje.folioUsuario}" readonly="true"> </p:inputText>
+                        </p:panelGrid>
+                        <p:spacer width="70" />
+                        <h:commandLink id="reporte" 
+                                       value="" 
+                                       style="height: 30px; font-size: 16px" 
+                                       target="_blank" 
+                                       actionListener="#{viajeBean.reporteViajeBean()}" onclick="PF('dlgReporte').hide()">
+                            <h:graphicImage url="/Images/printer.ico" style="height: 40px"/> 
+                        </h:commandLink> 
+                        <p:tooltip id="ttprinter" for="reporte" value="Imprimir reporte" trackMouse="true" />
+
+                    </p:dialog>
+                </h:form>
+                <!--TEST-->
+                <h:form id="test">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgViewPol" header="Ver reporte de gastos" widgetVar="dlgtest" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:inputText id="codigo" style="width: 100px;" value="#{viajeBean.viaje.nombreViajero}" readonly="true" ></p:inputText>
+                        <p:inputText id="folio" style="width: 100px;" value="#{viajeBean.viaje.folioUsuario}" readonly="true" ></p:inputText>
+
+                        <p:commandButton value="Mostrar" actionListener="#{listarBean.listar()}" update="poliza"></p:commandButton>
+                        <p:dataTable id="poliza" var="tbl" value="#{listarBean.lista}" style="font-size: 10px">
+                            <p:column headerText="Concepto">
+                                <p:outputLabel value="#{tbl.nombreConcepto}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Total">
+                                <p:outputLabel value="#{tbl.totalmxn}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Factura">
+                                <p:outputLabel value="#{tbl.rutaPdf}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Ver PDF" style="width: 65px;">
+                                <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/pdf.ico');background-size: 20px; background-repeat: no-repeat"
+                                                 value="" oncomplete="PF('dialogVerPDF').show();" update="frmVer">
+                                    <f:setPropertyActionListener target="#{conceptoBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>                                   
+                            </p:column>
+                        </p:dataTable>
+
+
+
+
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmViewDetail">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+
+                    <p:dialog style="font-size: 12px;" id="dlgViewPol" header="Ver reporte de gasts" widgetVar="dlgDetailPoliza" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:commandButton value="Listar" update="tablaConcepto"></p:commandButton>
+                        <p:dataTable id="tablaConcepto" 
+                                     paginator="true"
+                                     sortMode="multiple"
+                                     paginatorPosition="top" 
+                                     rows="10"
+                                     tableStyle="width:auto" 
+                                     var="tbl" 
+                                     value="#{listarBean.lista}">
+                            <p:ajax event="sort" skipChildren="false" />
+                            <p:column headerText="Importe">
+                                <h:outputText value="#{tbl.importe}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="IVA">
+                                <h:outputText value="#{tbl.iva}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="TUA">
+                                <h:outputText value="#{tbl.tua}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Factura">
+                                <h:outputText value="#{tbl.factura}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Total MXN">
+                                <h:outputText value="#{tbl.totalmxn}"></h:outputText>
+                            </p:column>                       
+                            <p:column filterBy="#{tbl.folioUsuario}" sortBy="#{tbl.folioUsuario}" headerText="Folio Usuario">
+                                <h:outputText value="#{tbl.folioUsuario}"></h:outputText>
+                            </p:column>                       
+                            <p:column headerText="Comentario">
+<!--                                        <h:outputText value="#{tbl.comentario}" style="#{tbl.comentario eq 'RFC INVALIDO, NO CORRESPONDE A MARUBENI MEXICO' ? 'color: #CD0707;font-weight: bold;':(tbl.comentario eq 'Rescheduled till Further Notice' ? 'color: blue;font-weight: bold;' : 'color: black;')}"></h:outputText>-->
+                                <h:outputText value="#{tbl.comentario}" style="#{tbl.comentario eq 'RFC en XML no corresponde a Marubeni' ? 'color: #CD0707;font-weight: bold;' : 'color: black;'}"></h:outputText>
+                            </p:column>                                                                                                                                                                                                       
+                            <p:column headerText="Pagado con Tarjeta Corporativa">
+                                <h:outputText value="#{tbl.tarjeta}"></h:outputText>
+                            </p:column>                                                                   
+
+                            <p:column headerText="Detalle XML" style="width: 65px;">
+                                <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/xml.png');background-size: 20px; background-repeat: no-repeat"
+                                                 value="" oncomplete="PF('dialogVerConcepto').show();" update="frmViewDetail">
+                                    <f:setPropertyActionListener target="#{conceptoAutoBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Ver PDF" style="width: 65px;">
+                                <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/pdf.ico');background-size: 20px; background-repeat: no-repeat"
+                                                 value="" oncomplete="PF('dialogVerPDF').show();" update="frmViewDetail">
+                                    <f:setPropertyActionListener target="#{conceptoAutoBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>                                   
+                            </p:column>
+                            <p:column headerText="Ver XML" style="width: 65px;">
+                                <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/verxml.png');background-size: 20px; background-repeat: no-repeat"
+                                                 value="" oncomplete="PF('dialogVerXML').show();" update="frmViewDetail">
+                                    <f:setPropertyActionListener target="#{conceptoAutoBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>                                   
+                            </p:column>
+                            <p:column headerText="Ver Imagen" style="width: 65px;">
+                                <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/foto.png');background-size: 20px; background-repeat: no-repeat"
+                                                 value="" oncomplete="PF('dialogVerIMG').show();" update="frmViewDetail">
+                                    <f:setPropertyActionListener target="#{conceptoAutoBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>                                   
+                            </p:column>                                           
+                        </p:dataTable>
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmProcesar">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgProcecarPol" 
+                              header="Enviar póliza" 
+                              widgetVar="dialogProcesarPoliza" 
+                              resizable="false" 
+                              showEffect="clip" 
+                              hideEffect="clip" 
+                              modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Cambiar estatus"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.status}">
+                                <f:selectItem itemLabel="Pendiente" itemValue="Pendiente"></f:selectItem>
+                                <f:selectItem itemLabel="Generar" itemValue="Generar"></f:selectItem>
+                            </p:selectOneMenu>                                                    
+                        </p:panelGrid>
+                        <p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/save.png');background-size: 25px; background-repeat: no-repeat"  value="" actionListener="#{viajeBean.modificarViaje()}" 
+                                         update="frmPol:tablaPoliza, mensaje" 
+                                         oncomplete="PF('dialogProcesarPoliza').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack" for="track" value="Procecar la póliza" trackMouse="true" />
+                        <p:commandButton id="track1" style="height: 35px; width: 60px; background-image: url('../..//Images/cancel.png');background-size: 25px; background-repeat: no-repeat"  value=""                                         
+                                         oncomplete="PF('dialogProcesarPoliza').hide();">                                            
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack1" for="track1" value="Cancelar" trackMouse="true" />
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmVer">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgVer" header="Visualizar factura" widgetVar="dialogVerPDF" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="1" style="margin: 0 auto">
+
+                            <p:outputLabel value="Factura PDF"></p:outputLabel>
+                            <object type="application/pdf" data="#{conceptoBean.concepto.rutaPdf}" height="550px" width="900px" internalinstanceid="5">
+                                Your browser can't display pdf, <a href="#{conceptoBean.concepto.rutaPdf}">click</a> to download pdf instead.
+                            </object> 
+
+                        </p:panelGrid>
+
+                        <p:commandButton id="t6" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" oncomplete="PF('dialogVerPDF').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt6" for="t6" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>        
+
+    </h:body>    
+</html>

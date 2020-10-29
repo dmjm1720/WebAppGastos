@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="mx.model.xml" table="xml" schema="dbo" catalog="gastos" optimistic-lock="version">
+        <id name="xml" type="string">
+            <column name="XML" length="150" />
+        </id>
+        <property name="uuid" type="string">
+            <column name="UUID" length="150" />
+        </property>
+        <property name="estatus" type="int">
+            <column name="Estatus"/>
+        </property>
+        <property name="observacion" type="string">
+            <column name="Observacion" length="100" />
+        </property>
+        <property name="bandera" type="int">
+            <column name="Bandera" />
+        </property>
+        <property name="numerosat" type="string">
+            <column name="numerosat" length="50"/>
+        </property>
+        <property name="numerousuario" type="string">
+            <column name="numerousuario" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

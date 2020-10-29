@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="mx.model.Viaje" table="viaje" schema="dbo" catalog="gastos" optimistic-lock="version">
+        <id name="idViaje" type="int">
+            <column name="idViaje" />
+            <generator class="native" />
+        </id>
+        <property name="folioUsuario" type="string">
+            <column name="folioUsuario" length="50" />
+        </property>
+        <property name="fechaDocumento" type="date">
+            <column name="fechaDocumento" length="10" />
+        </property>
+        <property name="oficina" type="string">
+            <column name="oficina" length="50" />
+        </property>
+        <property name="nombreViajero" type="string">
+            <column name="nombreViajero" length="50" />
+        </property>
+        <property name="origen" type="string">
+            <column name="origen" length="100" />
+        </property>
+        <property name="destino" type="string">
+            <column name="destino" length="100" />
+        </property>
+        <property name="proposito" type="string">
+            <column name="proposito" length="100" />
+        </property>
+        <property name="fechaOrigen" type="date">
+            <column name="fechaOrigen" length="10" />
+        </property>
+        <property name="fechaLlegada" type="date">
+            <column name="fechaLlegada" length="10" />
+        </property>
+        <property name="status" type="string">
+            <column name="status" length="30" />
+        </property>
+        <property name="dias" type="java.lang.Integer">
+            <column name="dias" />
+        </property>
+        <property name="totalAsignado" type="big_decimal">
+            <column name="totalAsignado" scale="4" />
+        </property>
+        <property name="departamento" type="string">
+            <column name="departamento" length="50" />
+        </property>
+        <property name="fechaAno" type="string">
+            <column name="fechaAno" length="10" />
+        </property>
+        <property name="tipoCambio" type="big_decimal">
+            <column name="tipoCambio" scale="4" />
+        </property>
+        <property name="tipoMoneda" type="string">
+            <column name="tipoMoneda" length="50" />
+        </property>
+        <property name="tipoViaje" type="string">
+            <column name="tipoViaje" length="50" />
+        </property>
+        <property name="layout" type="string">
+            <column name="layout" length="2" />
+        </property>
+        <property name="seccion" type="string">
+            <column name="seccion" length="50" />
+        </property>
+        <property name="comentario" type="string">
+            <column name="comentario" length="250" />
+        </property>
+        <property name="mutual" type="string">
+            <column name="mutual" length="2" />
+        </property>
+    </class>
+</hibernate-mapping>

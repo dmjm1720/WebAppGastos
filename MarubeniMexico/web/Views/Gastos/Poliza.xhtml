@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <title>Marubeni</title>
+
+    <body>
+        <ui:composition template="./../../plantilla/Template.xhtml">
+
+            <ui:define name="content">
+                <p:idleMonitor  onactive="PF('sessionTimeOutDialog').show()" timeout="600000" />
+                <p:dialog style="font-size: 15px;" header="Sistema de Gastos Marubeni México" widgetVar="sessionTimeOutDialog" 
+                          modal="true" closable="false" width="775" height="280" resizable="false" visible="false">                    
+                    <img src="../../Images/expired.png" alt=""/><br></br><br></br><br></br>
+                    <h:outputText style="color: #CC0505; font-size: 16px; " value="Tu sesión actual ha expirado, para continuar cierra esta ventana o presiona F5 y vuelve a iniciar sesión." />
+                    <!--                    &nbsp;<p:commandLink value="Iniciar sesión" action="/index?faces-redirect=true" actionListener="{loginBean.cerrarSesion()}"></p:commandLink>                               -->
+                </p:dialog>
+
+                <h2>ADMINISTRACIÓN DE PÓLIZAS
+                    <img src="../../Images/poliza.ico" style="width: 120px; height: 120px" alt=""/>
+                </h2>
+
+                <h:form>
+                    <p:button id="Inicio" style="height: 45px; width: 50px; background-image: url('../..//Images/homeicon.png');background-size: 40px; background-repeat: no-repeat"
+                              outcome="/Views/Gastos/CapturaViaje.xhtml" value=""> 
+                    </p:button> 
+                    <p:tooltip id="toolTipTrackInicio" for="Inicio" trackMouse="true" value="Captura de encabezado de viaje"></p:tooltip>
+                </h:form>                
+
+
+                <br></br>
+                <h:form id="frmConcepto"> 
+                    <p:layoutUnit id="datosConcepto" position="center" style="padding: 5px; text-align: center; font-size: 9px;">
+                        <p:dataTable id="tablaPoliza" sortMode="multiple"
+                                     scrollable="true"
+                                     scrollHeight="400"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,50,100" rows="10" paginator="true" paginatorPosition="top" var="tbl" value="#{admonBean.listaViaje}">
+                            <p:ajax event="sort" skipChildren="false" />
+                            <p:column filterBy="#{tbl.nombreViajero}" sortBy="#{tbl.nombreViajero}" headerText="Folio">
+                                <h:outputText value="#{tbl.departamento.substring(0,2)} #{tbl.nombreViajero} #{tbl.fechaAno} #{tbl.folioUsuario}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Fecha de Póliza">
+                                <h:outputText value="#{tbl.fechaDocumento}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Oficina">
+                                <h:outputText value="#{tbl.oficina}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Departamento">
+                                <h:outputText value="#{tbl.departamento}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Origen">
+                                <h:outputText value="#{tbl.origen}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Destino">
+                                <h:outputText value="#{tbl.destino}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Próposito viaje">
+                                <h:outputText value="#{tbl.proposito}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Fecha de Salida">
+                                <h:outputText value="#{tbl.fechaOrigen}"></h:outputText>
+                            </p:column>                                                                    
+                            <p:column headerText="Fecha de Regreso">
+                                <h:outputText value="#{tbl.fechaLlegada}"></h:outputText>
+                            </p:column>                                           
+                            <p:column filterBy="#{tbl.status}" sortBy="#{tbl.status}" headerText="Estatus">
+                                <h:outputText value="#{tbl.status}"></h:outputText>
+                            </p:column>                       
+                            <p:column headerText="Días de viaje">
+                                <h:outputText value="#{tbl.dias}"></h:outputText>
+                            </p:column>                       
+                            <p:column headerText="Anticipo">
+                                <h:outputText value="#{tbl.totalAsignado}"></h:outputText>
+                            </p:column>
+                            <p:column headerText="Cambiar Estatus" style="width: 65px;">
+                                <p:commandButton id="track2"  style="height: 28px; width: 40px; background-image: url('../..//Images/procesar.ico');background-size: 25px; background-repeat: no-repeat" 
+                                                 value="" oncomplete="PF('dialogProcesarPoliza').show();"
+                                                 update="frmProcesar">
+                                    <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>
+                                <p:tooltip id="toolTipTrack2" for="track2" value="Cambiar Estatus" trackMouse="true" />
+                            </p:column>
+                            <p:column headerText="Generar Póliza" style="width: 65px;">
+                                <p:commandButton id="trackGen"  style="height: 28px; width: 40px; background-image: url('../..//Images/polgear.ico');background-size: 25px; background-repeat: no-repeat" 
+                                                 value="" oncomplete="PF('dlgGenerar').show();"
+                                                 update="frmGenerar">
+                                    <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>
+                                <p:tooltip id="toolTipTrack2Gen" for="trackGen" value="Generar Póliza" trackMouse="true" />
+                            </p:column>
+                            <p:column headerText="Ver Reporte" style="width: 65px;">
+                                <p:commandButton id="track" style="height: 28px; width: 40px; background-image: url('../..//Images/ver.ico');background-size: 28px; background-repeat: no-repeat" value="" 
+                                                 oncomplete="PF('dlgReporte').show();"                                                 
+                                                 update="frmViewPol">
+                                    <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>
+                                </p:commandButton>
+                                <p:tooltip id="toolTipTrack" for="track" value="Ver Reporte" trackMouse="true" />
+                            </p:column>
+
+                            <p:column headerText="Detalle Póliza" style="width: 65px;">
+                                <p:commandButton id="track1" style="height: 28px; width: 40px; background-image: url('../..//Images/detail.png');background-size: 30px; background-repeat: no-repeat" value="" 
+                                                 oncomplete="PF('dlgViewPol').show();"
+                                                 update="frmVer:poliza" actionListener="#{ListarBean.listar(tbl.nombreViajero, tbl.folioUsuario)}">
+                                    <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"/>
+                                </p:commandButton>
+                                <p:tooltip id="toolTipTrack1" for="track1" value="Detalle Póliza" trackMouse="true" />
+                            </p:column>
+                            <p:column headerText="Vista Previa" style="width: 65px;">
+                                <p:commandButton id="ltprevia" style="height: 28px; width: 40px; background-image: url('../..//Images/preview.ico');background-size: 40px; background-repeat: no-repeat" 
+                                                 value="" 
+                                                 disabled="#{empty tbl.layout}"
+                                                 oncomplete="PF('dlgLayoutPreview').show();"
+                                                 update="frmLayoutPreview">
+                                    <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>                  
+                                </p:commandButton>
+                                <p:tooltip id="ttprevia" for="ltprevia" value="Vista previa Layout SAP" trackMouse="true" />
+                            </p:column>
+                            <p:column headerText="Layout SAP" style="width: 65px;">
+                                <p:commandButton id="lt" style="height: 28px; width: 40px; background-image: url('../..//Images/sap.png');background-size: 40px; background-repeat: no-repeat" 
+                                                 value="" 
+                                                 disabled="#{empty tbl.layout}"
+                                                 oncomplete="PF('dlgLayout').show();"
+                                                 update="frmLayout">
+                                    <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>                  
+                                </p:commandButton>
+                                <p:tooltip id="ttlayout" for="lt" value="Layout SAP" trackMouse="true" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:layoutUnit>                                              
+                </h:form>
+                <h:form id="frmProcesar">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgProcesarPol" 
+                              header="Enviar póliza" 
+                              widgetVar="dialogProcesarPoliza" 
+                              resizable="false" 
+                              showEffect="clip" 
+                              hideEffect="clip" 
+                              modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Cambiar estatus"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.status}">
+                                <f:selectItem itemLabel="Pendiente" itemValue="Pendiente"></f:selectItem>
+                            </p:selectOneMenu>                                                    
+                        </p:panelGrid>
+                        <p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/save.png');background-size: 25px; background-repeat: no-repeat"  value="" actionListener="#{viajeBean.modificarViaje()}" 
+                                         update="frmConcepto,mensaje" 
+                                         oncomplete="PF('dialogProcesarPoliza').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack" for="track" value="Procecar la póliza" trackMouse="true" />
+                        <p:commandButton id="track1" style="height: 35px; width: 60px; background-image: url('../..//Images/cancel.png');background-size: 25px; background-repeat: no-repeat"  value=""                                         
+                                         oncomplete="PF('dialogProcesarPoliza').hide()">                                            
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack1" for="track1" value="Cancelar" trackMouse="true" />
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmViewPol">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgViewPol" header="Ver reporte de gastos" widgetVar="dlgReporte" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Tipo:"></p:outputLabel>
+                            <p:inputText id="tipo" style="width: 100px;" value="#{viajeBean.viaje.tipoViaje}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Nombre: "></p:outputLabel>
+                            <p:inputText id="codigo" style="width: 100px;" value="#{viajeBean.viaje.nombreViajero}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio: "></p:outputLabel>
+                            <p:inputText id="folio" style="width: 100px;" value="#{viajeBean.viaje.folioUsuario}" readonly="true"> </p:inputText>
+                        </p:panelGrid>
+                        <p:spacer width="70" />
+                        <h:commandLink id="reporte" 
+                                       value="" 
+                                       style="height: 30px; font-size: 16px" 
+                                       target="_blank" 
+                                       actionListener="#{viajeBean.reporteViajeBean()}" onclick="PF('dlgReporte').hide()">
+                            <h:graphicImage url="/Images/printer.ico" style="height: 40px"/> 
+                        </h:commandLink> 
+                        <p:tooltip id="ttprinter" for="reporte" value="Imprimir reporte" trackMouse="true" />
+
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmGenerar">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgViewPol" header="Generar Póliza" widgetVar="dlgGenerar" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre: "></p:outputLabel>
+                            <p:inputText id="codigo" style="width: 100px;" value="#{viajeBean.viaje.nombreViajero}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio: "></p:outputLabel>
+                            <p:inputText id="folio" style="width: 100px;" value="#{viajeBean.viaje.folioUsuario}" readonly="true"> </p:inputText>
+                        </p:panelGrid>
+                        <p:spacer width="70" />
+                        <h:commandLink id="reporte" 
+                                       value="" 
+                                       style="height: 30px; font-size: 16px" 
+                                       actionListener="#{Poliza.seleccionarViaje()}" onclick="PF('dlgGenerar').hide()">
+                            <h:graphicImage url="/Images/process.png" style="height: 60px"/> 
+                        </h:commandLink> 
+                        <p:tooltip id="ttprinter" for="reporte" value="Generar Póliza" trackMouse="true" />
+
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmLayout">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgViewPolt" header="Descargar Layout SAP" widgetVar="dlgLayout" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre: "></p:outputLabel>
+                            <p:inputText id="codigo" style="width: 100px;" value="#{viajeBean.viaje.nombreViajero}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio: "></p:outputLabel>
+                            <p:inputText id="folio" style="width: 100px;" value="#{viajeBean.viaje.folioUsuario}" readonly="true"> </p:inputText>
+                        </p:panelGrid>
+                        <p:spacer width="70" />
+                        <h:commandLink id="reporte" 
+                                       value="" 
+                                       style="height: 30px; font-size: 16px" 
+                                       actionListener="#{reportePolizaBean.reportePolizaBean()}" onclick="PF('dlgLayout').hide()">
+                            <h:graphicImage url="/Images/Ocean Blue Downloads.png" style="height: 60px"/> 
+                        </h:commandLink> 
+                        <p:tooltip id="ttprinter" for="reporte" value="Descargar Póliza" trackMouse="true" />
+
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmLayoutPreview">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgViewPolt" header="Vista Previa Póliza" widgetVar="dlgLayoutPreview" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre: "></p:outputLabel>
+                            <p:inputText id="codigo" style="width: 100px;" value="#{viajeBean.viaje.nombreViajero}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio: "></p:outputLabel>
+                            <p:inputText id="folio" style="width: 100px;" value="#{viajeBean.viaje.folioUsuario}" readonly="true"> </p:inputText>
+                        </p:panelGrid>
+                        <p:spacer width="70" />
+                        <h:commandLink id="reporte" 
+                                       value="" 
+                                       style="height: 30px; font-size: 16px" 
+                                       target="_blank"
+                                       actionListener="#{polizaPreviewBean.polizaPreviewBean()}" 
+                                       onclick="PF('dlgLayoutPreview').hide();">
+                            <h:graphicImage url="/Images/Preview-Docment.png" style="height: 60px"/> 
+                        </h:commandLink> 
+                        <p:tooltip id="ttprinter" for="reporte" value="Vista Previa Póliza" trackMouse="true" />
+
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmVerConcepto">
+                    <p:dialog style="font-size: 12px;" id="dlgVerConcepto" header="Ver detalle del XML" widgetVar="dialogVerConcepto" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="4" style="margin: 0 auto">
+                            <p:outputLabel value="Concepto"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.nombreConcepto}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Importe"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.importe}" readonly="true"></p:inputText>
+                            <p:outputLabel value="IVA"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.iva}" readonly="true"></p:inputText>
+                            <p:outputLabel value="TUA"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.tua}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Factura"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.factura}" readonly="true"></p:inputText>
+                            <p:outputLabel value="UUID"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.uuid}" style="width: 260px" readonly="true"></p:inputText>
+                            <p:outputLabel value="RFC"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.rfc}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Razón Social"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.nombre}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Estatus XML"></p:outputLabel>                                               
+                            <p:inputText value="#{VoucherBean.concepto.estatus}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Total MXN"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.totalmxn}" readonly="true"></p:inputText>
+                            <p:outputLabel value="PDF"></p:outputLabel>
+                            <object type="application/pdf" data="#{VoucherBean.concepto.rutaPdf}" height="200px" width="790px" internalinstanceid="5">
+                                Your browser can't display pdf, <a href="#{VoucherBean.concepto.rutaPdf}">click</a> to download pdf instead.
+                            </object> 
+                            <p:outputLabel value="Imagen"></p:outputLabel>
+                            <p:graphicImage value="#{VoucherBean.concepto.rutaImagen}" style="height: 100px;"></p:graphicImage>
+                            <p:outputLabel value="Comentario"></p:outputLabel>
+                            <p:inputTextarea value="#{VoucherBean.concepto.comentario}" style="width: 400px" readonly="true"></p:inputTextarea>
+                            <p:outputLabel value="Nombre usuario"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.nombreUsuario}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio usuario"></p:outputLabel>
+                            <p:inputText value="#{VoucherBean.concepto.folioUsuario}" readonly="true"></p:inputText>
+                        </p:panelGrid>
+
+                        <p:commandButton id="t4" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" oncomplete="PF('dialogVerConcepto').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt4" for="t4" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+
+
+                <h:form id="frmVer">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 10px;" id="dlgViewPol" width="1080" header="Ver detalle de la Póliza" 
+                              widgetVar="dlgViewPol" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:dataTable id="poliza" var="tbl" value="#{ListarBean.listaConceptoViaje}" 
+                                     style="font-size: 10px">
+                            <p:column headerText="Concepto" style="width: 50px">
+                                <p:outputLabel value="#{tbl.nombreConcepto}"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Total" style="width: 50px">
+                                <p:outputLabel value="#{tbl.totalmxn}"></p:outputLabel>
+                            </p:column>                           
+                            <p:column headerText="Subtotal" style="width: 50px">
+                                <p:outputLabel value="#{tbl.importe}"></p:outputLabel>
+                            </p:column>                           
+                            <p:column headerText="IVA" style="width: 50px">
+                                <p:outputLabel value="#{tbl.iva}"></p:outputLabel>
+                            </p:column>                           
+                            <p:column headerText="UUID" style="width: 250px">
+                                <p:outputLabel value="#{tbl.uuid}"></p:outputLabel>
+                            </p:column>                           
+                            <p:column headerText="RFC" style="width: 100px">
+                                <p:outputLabel value="#{tbl.rfc}"></p:outputLabel>
+                            </p:column>                           
+                            <p:column headerText="Razón Social" style="width: 400px">
+                                <p:outputLabel value="#{tbl.nombre}"></p:outputLabel>
+                            </p:column>                           
+                            <p:column headerText="PDF" style="width: 50px">
+                                <p:spacer width="20" height="10" />
+                                <p:button id="pdf" disabled="#{empty tbl.rutaPdf}" 
+                                          target="_blank" href="#{tbl.rutaPdf}" value="" 
+                                          style="background-image: url('../..//Images/pdf.ico');height: 20px; 
+                                          width: 25px; background-size: 25px; background-repeat: no-repeat"/>
+                                <p:tooltip id="ToolPDF" for="pdf" trackMouse="true" value="Ver PDF de la factura"/>
+                            </p:column>
+                            <p:column headerText="XML" style="width: 50px">
+                                <p:spacer width="20" height="10" />
+                                <p:button id="xml" disabled="#{empty tbl.rutaXml}" target="_blank" href="#{tbl.rutaXml}" 
+                                          value="" style="background-image: url('../..//Images/xml-file.ico');height: 20px; 
+                                          width: 25px; background-size: 25px; background-repeat: no-repeat"/>
+                                <p:tooltip id="TollXML" for="xml" trackMouse="true" value="Ver XML de la factura"/>
+                            </p:column>
+                            <p:column headerText="Imagen" style="width: 50px">
+                                <p:spacer width="20" height="10" />
+                                <p:button id="jpg" disabled="#{empty tbl.rutaImagen}" target="_blank" href="#{tbl.rutaImagen}" 
+                                          value="" style="background-image: url('../..//Images/canon.ico');height: 20px; 
+                                          width: 25px; background-size: 25px; background-repeat: no-repeat"/>          
+                                <p:tooltip id="ToolXML" for="jpg" trackMouse="true" value="Ver imagen del comprobante "/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:dialog>
+                    <p:dialog style="font-size: 12px;" id="dlgVerPDF" header="Visualizar factura" widgetVar="dialogVerPDF" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="1" style="margin: 0 auto">                       
+                            <p:outputLabel value="Factura PDF"></p:outputLabel>
+                            <a style="font-size: 14px; font-family: 'Questrial'" target="_blank" href="#{tbl.rutaPdf}" onclick="PF('dialogVerXML').hide();">VER XML</a><br/><br/>  
+
+                        </p:panelGrid>
+
+                        <p:commandButton id="t6" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" oncomplete="PF('dialogVerPDF').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt6" for="t6" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                    </p:dialog>
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

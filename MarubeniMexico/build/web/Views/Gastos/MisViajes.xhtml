@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+
+
+    </h:head>
+    <h:body>
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h2>
+                    <img src="../../Images/registro.png" style="width: 90px; height: 90px" alt=""/>
+                    REPORTES DE GASTOS DE VIAJES CONCLUÍDOS
+                </h2>
+
+                <h:form>
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <!--                     <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" />-->
+                </h:form>
+                <h:form id="frmMain">
+
+
+                    <p:outputLabel value="#{usuarioBean.usuario.nombre}"></p:outputLabel>
+<!--                    <p:commandButton id="track" style="height: 45px; width: 50px; background-image: url('../..//Images/data.png');background-size: 40px; background-repeat: no-repeat" value=""
+                                     actionListener="#{viajeBean.prepararNuevoViaje()}" oncomplete="PF('dlg3').show();" update=":frmNuevoViaje,:frmNuevoExtranejero">
+                                     disabled="#{!empty viajeBean.listaViaje}"  actionListener="#{viajeBean.prepararNuevoViaje()}" oncomplete="PF('dialogNuevoViaje').show();" update=":frmNuevoViaje">
+                    </p:commandButton>-->
+
+                    <!--                    <p:tooltip id="toolTipTrack" for="track" value="Agregar gasto del viaje" trackMouse="true" />
+                                        <p:commandButton id="track1" style="height: 45px; width: 50px; background-image: url('../..//Images/gto.png');background-size: 35px; background-repeat: no-repeat" value="" 
+                                                         type="button" onclick="PF('dlg2').show();" />
+                                        <p:tooltip id="toolTipTrack1" for="track1" value="Agregar gastos de viaje" trackMouse="true" />-->
+                    <p:dialog header="Marubeni México" widgetVar="dlg2" style="text-align: center; font-size: 12px;" modal="true" showEffect="drop" hideEffect="scale" height="120" width="250">
+                        <br></br>
+                        <h:outputText value="¿TIPO DE VIAJE A CAPTURAR?" />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <p:button id="nacional" style="height: 45px; width: 70px; background-image: url('../..//Images/mx.png');background-size: 50px; background-repeat: no-repeat" 
+                                  outcome="ConceptoAvion.xhtml" value="" >                                  
+                        </p:button>
+                        <p:tooltip id="nac" for="nacional" value="Gasto Nacional" trackMouse="true" />
+                        &nbsp;<p:button id="extranjero" style="height: 45px; width: 70px; background-image: url('../..//Images/mundo.png');background-size: 50px; background-repeat: no-repeat" 
+                                        outcome="/Views/Extranjero/USDConceptoAvion.xhtml" value="">      
+                        </p:button>
+                        <p:tooltip id="ext" for="extranjero" value="Gastos Extranjero" trackMouse="true" />
+                    </p:dialog>
+                    <!--PARA PREGUNTAR SI ES EXTRANJERO O NACIONAL EL ENCABEZADO-->
+                    <p:dialog header="¿Registrar Gasto Nacional o Extranjero?" widgetVar="dlg3" style="text-align: center; font-size: 12px;" modal="true" showEffect="drop" hideEffect="scale" height="120" width="250">
+                        <br></br>
+                        <h:outputText value="¿Registrar Gasto Nacional o Extranjero?" />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <p:commandButton id="id1" style="height: 45px; width: 70px; background-image: url('../..//Images/mx.png');background-size: 50px; background-repeat: no-repeat" 
+                                         onclick="PF('dialogNuevoViaje').show();PF('dlg3').hide();" value="" update="frmMain" />                                  
+                        <p:tooltip id="nac1" for="id1" value="Registrar Gasto de Viaje Nacional" trackMouse="true" />
+                        &nbsp;<p:commandButton id="id2" style="height: 45px; width: 70px; background-image: url('../..//Images/mundo.png');background-size: 50px; background-repeat: no-repeat" 
+                                               onclick="PF('dialogNuevoExtra').show();PF('dlg3').hide();" value="">      
+                        </p:commandButton>
+                        <p:tooltip id="ext1" for="id2" value="Registrar Gasto de Viaje al Extranjero" trackMouse="true" />
+                    </p:dialog>
+                    <!--PARA PREGUNTAR SI ES EXTRANJERO O NACIONAL EL ENCABEZADO-->
+                </h:form>
+                <br></br>
+                <h:form id="frmViaje"> 
+                    <p:panel id="pnl" header="" style="margin: 0 auto; text-align: center;">
+                        <p:layout id="capaDatosViaje" style="width: 100%; height: 325px;">
+                            <p:layoutUnit id="datosConcepto" position="center" style="padding: 5px; text-align: center;">
+
+                                <p:dataTable id="tablaViaje" paginator="true" paginatorPosition="top" var="tbl" value="#{viajeBean.listaViajeConcluidos}">
+                                    <p:column headerText="Folio">
+                                        <h:outputText value="#{tbl.departamento.substring(0,2)}-#{tbl.nombreViajero}-#{tbl.fechaAno}-#{tbl.folioUsuario}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha">
+                                        <h:outputText value="#{tbl.fechaDocumento}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Oficina">
+                                        <h:outputText value="#{tbl.oficina}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Departamento">
+                                        <h:outputText value="#{tbl.departamento}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Origen">
+                                        <h:outputText value="#{tbl.origen}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Destino">
+                                        <h:outputText value="#{tbl.destino}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Propósito">
+                                        <h:outputText value="#{tbl.proposito}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha de salida">
+                                        <h:outputText value="#{tbl.fechaOrigen}"></h:outputText>
+                                    </p:column>                                                                    
+                                    <p:column headerText="Fecha de regreso">
+                                        <h:outputText value="#{tbl.fechaLlegada}"></h:outputText>
+                                    </p:column>                                           
+                                    <p:column headerText="Estatus Captura">
+                                        <h:outputText value="#{tbl.status}"></h:outputText>
+                                    </p:column>                       
+                                    <p:column headerText="Días de viaje">
+                                        <h:outputText value="#{tbl.dias}"></h:outputText>
+                                    </p:column>                                                                                  
+                                    <p:column headerText="T. Cambio">
+                                        <h:outputText value="#{tbl.tipoCambio}"></h:outputText>
+                                    </p:column>                       
+                                    <p:column headerText="T. Moneda">
+                                        <h:outputText value="#{tbl.tipoMoneda   }"></h:outputText>
+                                    </p:column>                       
+                                    <p:column headerText="Anticipo">
+                                        <h:outputText value="#{tbl.totalAsignado}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="T. Viaje">
+                                        <h:outputText id="tipo" value="#{tbl.tipoViaje}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Ver reporte" style="width: 65px;">
+                                        <p:commandButton id="trackr" style="height: 28px; width: 50px; background-image: url('../..//Images/ver.ico');background-size: 23px; background-repeat: no-repeat" 
+                                                         value="" oncomplete="PF('dlgReporte1').show();"                                                 
+                                                         update="frmViewPol">
+                                            <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>
+                                        <p:tooltip id="toolTipTrackr" for="trackr" value="Ver reporte" trackMouse="true" />
+                                    </p:column>
+                                    
+                                    
+                                    
+
+                                    <!--                                    <p:column headerText="Eliminar Viaje" style="width: 65px;">
+                                                                            <p:commandButton id="track1" style="height: 28px; width: 60px; background-image: url('../..//Images/delete.ico');background-size: 25px; background-repeat: no-repeat" value="" oncomplete="PF('dialogEliminarViaje').show();"
+                                                                                             update="frmEliminarViaje">
+                                                                                <f:setPropertyActionListener target="#{viajeBean.viaje}" value="#{tbl}"></f:setPropertyActionListener>                  
+                                                                            </p:commandButton>
+                                                                            <p:tooltip id="toolTipTrack1" for="track1" value="Borrar" trackMouse="true" />
+                                                                        </p:column>-->
+
+
+                                </p:dataTable>
+                            </p:layoutUnit>                              
+                        </p:layout>
+                    </p:panel>
+
+
+                </h:form>
+                <h:form id="frmViewPol">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgViewPol" header="Ver reporte de gastos" widgetVar="dlgReporte1" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Tipo:"></p:outputLabel>
+                            <p:inputText id="tipo" style="width: 100px;" value="#{viajeBean.viaje.tipoViaje}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Nombre: "></p:outputLabel>
+                            <p:inputText id="codigo" style="width: 100px;" value="#{viajeBean.viaje.nombreViajero}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio: "></p:outputLabel>
+                            <p:inputText id="folio" style="width: 100px;" value="#{viajeBean.viaje.folioUsuario}" readonly="true"> </p:inputText>
+                        </p:panelGrid>
+                        <p:spacer width="70" />
+                        <h:commandLink id="reporte" 
+                                       value="" 
+                                       style="height: 30px; font-size: 16px" 
+                                       target="_blank" 
+                                       actionListener="#{viajeBean.reporteViajeBean()}"  onclick="PF('dlgReporte1').hide()">
+                            <h:graphicImage url="/Images/printer.ico" style="height: 40px"/> 
+                        </h:commandLink> 
+                        <p:tooltip id="ttprinter" for="reporte" value="Imprimir reporte" trackMouse="true" />
+
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmNuevoViaje" onsubmit="validar();">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgnuevoUsuario" header="Agregar viaje" widgetVar="dialogNuevoViaje" resizable="false" showEffect="blind"  hideEffect="drop"  modal="true">
+                        <p:panel id="pnlNacional">
+                            <p:panelGrid id="panelNac" columns="2" style="margin: 0 auto">                              
+                                <p:outputLabel value="Código SAP"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.nombreViajero}">
+                                    <f:selectItems value="#{viajeBean.listNombreUsuario}"></f:selectItems>
+                                </p:selectOneMenu> 
+
+                                <p:outputLabel value="Tipo de Viaje"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.tipoViaje}">
+                                    <f:selectItem itemLabel="Nacional" itemValue="Nacional"></f:selectItem>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Oficina"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" label="Seleccione Oficina" value="#{viajeBean.viaje.oficina}">
+                                    <f:selectItem itemLabel="Selecione oficina" itemValue=""></f:selectItem>
+                                    <f:selectItem itemLabel="Ciudad de México" itemValue="Ciudad de México"></f:selectItem>
+                                    <f:selectItem itemLabel="Querétaro" itemValue="Querétaro"></f:selectItem>
+                                    <f:selectItem itemLabel="Zacatecas" itemValue="Zacatecas"></f:selectItem>
+                                    <f:selectItem itemLabel="Hermosillo" itemValue="Hermosillo"></f:selectItem>
+                                    <f:selectItem itemLabel="Lázaro Cárdenas" itemValue="Lázaro Cárdenas"></f:selectItem>
+                                    <f:selectItem itemLabel="Chihuahua" itemValue="Chihuahua"></f:selectItem>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Departamento"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" label="Seleccione departamento" value="#{viajeBean.viaje.departamento}">
+                                    <f:selectItem itemLabel="Selecione departamento" itemValue=""></f:selectItem>
+                                    <f:selectItems value="#{CategoriaBean.listPorDepto}"></f:selectItems>  
+                                </p:selectOneMenu> 
+
+                                <p:outputLabel value="Origen"></p:outputLabel>
+                                <p:inputText style="width: 300px;" value="#{viajeBean.viaje.origen}" label="Ingrese origen" required="true" placeholder="Ingrese origen" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                                <p:outputLabel value="Destino"></p:outputLabel>
+                                <p:inputText style="width: 300px;" value="#{viajeBean.viaje.destino}" label="Ingrese destino" required="true" placeholder="Ingrese destino" onkeyup="javascript:this.value = this.value.toUpperCase();"> </p:inputText>
+
+                                <p:outputLabel value="Propósito"></p:outputLabel>
+                                <p:inputTextarea style="width: 350px;"  value="#{viajeBean.viaje.proposito}" label="Ingrese propósito del viaje" required="true"  placeholder="Ingrese propósito del viaje"  onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                    <f:validateLength minimum="1" maximum="100" />
+                                    <p:ajax update="mensaje" event="keyup" />
+                                </p:inputTextarea>
+
+                                <p:outputLabel value="Fecha de salida" ></p:outputLabel>
+                                <p:calendar  id="fecha_inicio" mindate="-2m"  yearRange="#{dateBean.range}"  effect="blind" effectDuration="13000" pages="2" showOn="button" style="width: 150px;" value="#{viajeBean.viaje.fechaOrigen}" required="true" placeholder="Ingrese fecha de salida">
+                                    <p:ajax event="dateSelect" update="fecha_fin"></p:ajax>
+                                </p:calendar>                                               
+
+                                <p:outputLabel value="Fecha de llegada"></p:outputLabel>
+                                <p:calendar id="fecha_fin" effect="blind" effectDuration="13000" pages="2" showOn="button" style="width: 150px;" value="#{viajeBean.viaje.fechaLlegada}" required="true"  placeholder="Ingrese fecha de llegada" >
+                                    <p:ajax event="change" update="fecha_fin"></p:ajax>
+                                </p:calendar>                                                      
+
+                                <p:outputLabel value="Anticipo"></p:outputLabel>
+                                <p:inputNumber style="width: 300px;" value="#{viajeBean.viaje.totalAsignado}" label="Ingrese anticipo o coloque 0" required="true" placeholder="Ingrese anticipo" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputNumber>
+
+                                <p:outputLabel value="Mutual"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" label="Seleccione mutual" value="#{viajeBean.viaje.mutual}">
+                                    <f:selectItem itemLabel="Seleccione si es mutual" itemValue=""></f:selectItem>
+                                    <f:selectItem itemLabel="Si" itemValue="Si"></f:selectItem>
+                                    <f:selectItem itemLabel="No" itemValue="No"></f:selectItem>
+                                    <p:ajax update="sec1,sec2" />  
+                                </p:selectOneMenu> 
+
+                                <p:outputLabel value="Sección"></p:outputLabel>
+                                <p:inputText id="sec1" style="width: 300px;" disabled="#{viajeBean.viaje.mutual=='No'}" value="#{viajeBean.viaje.seccion}" placeholder="Ingrese sección" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                                <p:outputLabel value="Comentario"></p:outputLabel>
+                                <p:inputTextarea id="sec2" style="width: 300px;" disabled="#{viajeBean.viaje.mutual=='No'}" value="#{viajeBean.viaje.comentario}" placeholder="Ingrese comentario" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputTextarea>
+
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/save.png');background-size: 25px; background-repeat: no-repeat"  value=""  actionListener="#{viajeBean.nuevoViaje()}" 
+                                         update="pnlNacional,mensaje,frmViaje">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack" for="track" value="Guardar" trackMouse="true" />
+                        <p:commandButton id="track1" style="height: 35px; width: 60px; background-image: url('../..//Images/cancel.png');background-size: 25px; background-repeat: no-repeat"  value="" update="mensaje" oncomplete="PF('dialogNuevoViaje').hide();"></p:commandButton>
+                        <p:tooltip id="toolTipTrack1" for="track1" value="Cancelar" trackMouse="true" />
+                    </p:dialog>
+
+                </h:form>
+                <!--PARA CAPTURAR LOS DATOS DEL EXTRANJERO-->
+                <h:form id="frmNuevoExtranejero" onsubmit="validar();">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgnuevoUsuario" header="Agregar viaje extranjero" widgetVar="dialogNuevoExtra" resizable="false" showEffect="blind"  hideEffect="drop"  modal="true">
+                        <p:panel id="pnlExtranjero">
+                            <p:panelGrid columns="2" style="margin: 0 auto">                          
+                                <p:outputLabel value="Código SAP"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.nombreViajero}">
+                                    <f:selectItems value="#{viajeBean.listNombreUsuario}"></f:selectItems>
+                                </p:selectOneMenu> 
+                                <p:outputLabel value="Tipo de Viaje"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.tipoViaje}">
+                                    <f:selectItem itemLabel="Extranjero" itemValue="Extranjero"></f:selectItem>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Oficina"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" label="Seleccione oficina" value="#{viajeBean.viaje.oficina}">
+                                    <f:selectItem itemLabel="Selecione oficina" itemValue=""></f:selectItem>
+                                    <f:selectItem itemLabel="Ciudad de México" itemValue="Ciudad de México"></f:selectItem>
+                                    <f:selectItem itemLabel="Querétaro" itemValue="Querétaro"></f:selectItem>
+                                    <f:selectItem itemLabel="Zacatecas" itemValue="Zacatecas"></f:selectItem>
+                                    <f:selectItem itemLabel="Hermosillo" itemValue="Hermosillo"></f:selectItem>
+                                    <f:selectItem itemLabel="Lázaro Cárdenas" itemValue="Lázaro Cárdenas"></f:selectItem>
+                                    <f:selectItem itemLabel="Chihuahua" itemValue="Chihuahua"></f:selectItem>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Departamento"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" label="Seleccione departamento" value="#{viajeBean.viaje.departamento}">
+                                    <f:selectItem itemLabel="Selecione departamento" itemValue=""></f:selectItem>
+                                    <f:selectItems value="#{CategoriaBean.listPorDepto}"></f:selectItems>  
+                                </p:selectOneMenu> 
+
+                                <p:outputLabel value="Origen"></p:outputLabel>
+                                <p:inputText style="width: 300px;" value="#{viajeBean.viaje.origen}" label="Ingrese origen" required="true" placeholder="ingrese origen" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>                                           
+
+                                <p:outputLabel value="Destino"></p:outputLabel>
+                                <p:inputText style="width: 300px;" value="#{viajeBean.viaje.destino}" label="Ingrese destino" required="true" placeholder="Ingrese destino" onkeyup="javascript:this.value = this.value.toUpperCase();"> </p:inputText>
+
+                                <p:outputLabel value="Propósito"></p:outputLabel>
+                                <p:inputTextarea style="width: 350px;"  value="#{viajeBean.viaje.proposito}" label="Ingrese propósito del viaje" required="true"  placeholder="Ingrese propósito"  onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                    <f:validateLength minimum="1" maximum="100" />
+                                    <p:ajax update="mensaje" event="keyup" />
+                                </p:inputTextarea>
+
+                                <p:outputLabel value="Fecha de salida" ></p:outputLabel>
+                                <p:calendar  id="fecha_inicio" mindate="-2m"  yearRange="#{dateBean.range}" effect="blind" effectDuration="13000" pages="2" showOn="button" style="width: 150px;" value="#{viajeBean.viaje.fechaOrigen}" required="true" placeholder="Ingrese fecha de salida">
+                                    <p:ajax event="dateSelect" update="fecha_fin"></p:ajax>
+                                </p:calendar>                                               
+
+                                <p:outputLabel value="Fecha de llegada"></p:outputLabel>
+                                <p:calendar id="fecha_fin" effect="blind" effectDuration="13000" pages="2" showOn="button" style="width: 150px;" value="#{viajeBean.viaje.fechaLlegada}" required="true"  placeholder="Ingrese fecha de llegada" >
+                                    <p:ajax event="change" update="fecha_fin"></p:ajax>
+                                </p:calendar>                                                      
+
+                                <p:outputLabel value="Tipo de cambio"></p:outputLabel>
+                                <p:inputText style="width: 150px;" value="#{viajeBean.viaje.tipoCambio}" label="Ingrese tipo de cambio" required="true" placeholder="ingrese tipo de cambio" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                                <p:outputLabel value="Tipo de moneda"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" label="Seleccione tipo de moneda" value="#{viajeBean.viaje.tipoMoneda}">
+                                    <f:selectItem itemLabel="Selecione tipo de moneda" itemValue=""></f:selectItem>
+                                    <f:selectItem itemLabel="USD" itemValue="USD"></f:selectItem>
+                                    <f:selectItem itemLabel="EURO" itemValue="EURO"></f:selectItem>
+                                    <f:selectItem itemLabel="YEN" itemValue="YEN"></f:selectItem>
+                                    <f:selectItem itemLabel="CÓRDOBA" itemValue="CÓRDOBA"></f:selectItem>
+                                    <f:selectItem itemLabel="SOL" itemValue="SOL"></f:selectItem>
+                                    <f:selectItem itemLabel="RUPIA" itemValue="RUPIA"></f:selectItem>
+                                    <f:selectItem itemLabel="LIBRA ESTERLINA" itemValue="LIBRA ESTERLINA"></f:selectItem>
+                                    <f:selectItem itemLabel="QUETZAL" itemValue="QUETZAL"></f:selectItem>
+                                    <f:selectItem itemLabel="BOLÍVAR" itemValue="BOLÍVAR"></f:selectItem>
+                                    <f:selectItem itemLabel="SHEKEL" itemValue="SHEKEL"></f:selectItem>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Anticipo"></p:outputLabel>
+                                <p:inputNumber style="width: 300px;" value="#{viajeBean.viaje.totalAsignado}" label="Ingrese anticipo o coloque 0" required="true" placeholder="Ingrese anticipo" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputNumber>
+
+                                <p:outputLabel value="Mutual"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" label="Seleccione mutual" value="#{viajeBean.viaje.mutual}">
+                                    <f:selectItem itemLabel="Seleccione si es mutual" itemValue=""></f:selectItem>
+                                    <f:selectItem itemLabel="Si" itemValue="Si"></f:selectItem>
+                                    <f:selectItem itemLabel="No" itemValue="No"></f:selectItem>
+                                    <p:ajax update="sec1,sec2" />  
+                                </p:selectOneMenu> 
+
+                                <p:outputLabel value="Sección"></p:outputLabel>
+                                <p:inputText id="sec1" style="width: 300px;" disabled="#{viajeBean.viaje.mutual=='No'}" value="#{viajeBean.viaje.seccion}" placeholder="Ingrese sección" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                                <p:outputLabel value="Comentario"></p:outputLabel>
+                                <p:inputTextarea id="sec2" style="width: 300px;" disabled="#{viajeBean.viaje.mutual=='No'}" value="#{viajeBean.viaje.comentario}" placeholder="Ingrese comentario" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputTextarea>
+
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/save.png');background-size: 25px; background-repeat: no-repeat"  value=""  actionListener="#{viajeBean.nuevoViaje()}" 
+                                         update="pnlExtranjero,mensaje,frmViaje" >
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack" for="track" value="Guardar" trackMouse="true" />
+                        <p:commandButton id="track1" style="height: 35px; width: 60px; background-image: url('../..//Images/cancel.png');background-size: 25px; background-repeat: no-repeat"  value="" update="mensaje" oncomplete="PF('dialogNuevoViaje').hide();"></p:commandButton>
+                        <p:tooltip id="toolTipTrack1" for="track1" value="Cancelar" trackMouse="true" />
+                    </p:dialog>
+
+                </h:form>
+
+
+                <h:form id="frmModificarViaje">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgModificarUsuario" header="Modificar viaje" widgetVar="dialogModificarViaje" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre usuario"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.nombreViajero}">
+                                <f:selectItems value="#{viajeBean.listNombreUsuario}"></f:selectItems>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel value="Oficina"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.oficina}">
+                                <f:selectItem itemLabel="Selecione opcion" itemValue=""></f:selectItem>
+                                <f:selectItem itemLabel="Ciudad de México" itemValue="Ciudad de México"></f:selectItem>
+                                <f:selectItem itemLabel="Querétaro" itemValue="Querétaro"></f:selectItem>
+                                <f:selectItem itemLabel="Zacatecas" itemValue="Zacatecas"></f:selectItem>
+                                <f:selectItem itemLabel="Hermosillo" itemValue="Hermosillo"></f:selectItem>
+                                <f:selectItem itemLabel="Lázaro Cárdenas" itemValue="Lázaro Cárdenas"></f:selectItem>
+                                <f:selectItem itemLabel="Chihuahua" itemValue="Chihuahua"></f:selectItem>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Departamento"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.departamento}">
+                                <f:selectItem itemLabel="Selecione departamento" itemValue=""></f:selectItem>
+                                <f:selectItems value="#{CategoriaBean.listPorDepto}"></f:selectItems>  
+                            </p:selectOneMenu>                           
+
+                            <p:outputLabel value="Origen"></p:outputLabel>
+                            <p:inputText style="width: 300px;" value="#{viajeBean.viaje.origen}" required="true" placeholder="ingrese origen" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Destino"></p:outputLabel>
+                            <p:inputText style="width: 300px;" value="#{viajeBean.viaje.destino}" required="true" placeholder="Ingrese destino" onkeyup="javascript:this.value = this.value.toUpperCase();"> </p:inputText>
+
+                            <p:outputLabel value="Propósito"></p:outputLabel>
+                            <p:inputTextarea style="width: 350px;"  value="#{viajeBean.viaje.proposito}" required="true"  placeholder="Ingrese propósito"  onkeyup="javascript:this.value = this.value.toUpperCase();">
+                                <f:validateLength minimum="15" maximum="100" />
+                                <p:ajax update="mensaje" event="keyup" />
+                            </p:inputTextarea>
+
+                            <p:outputLabel value="Fecha de salida" ></p:outputLabel>
+                            <p:calendar id="ini" mindate="-2m" effect="explode" effectDuration="13000" pages="2" showOn="button" style="width: 150px;" value="#{viajeBean.viaje.fechaOrigen}" required="true" placeholder="Ingrese fecha origen">
+                                <p:ajax event="dateSelect" update="fin"></p:ajax>
+                            </p:calendar>                                                            
+                            <p:outputLabel value="Fecha de llegada"></p:outputLabel>
+                            <p:calendar id="fin" effect="explode" effectDuration="13000" pages="2" showOn="button" style="width: 150px;" value="#{viajeBean.viaje.fechaLlegada}" required="true"  placeholder="Ingrese fecha llegada" >
+                                <p:ajax event="change" update="fin"></p:ajax>
+                            </p:calendar>                                                      
+                            <p:outputLabel value="Anticipo"></p:outputLabel>
+                            <p:inputNumber style="width: 300px;" value="#{viajeBean.viaje.totalAsignado}" required="true" placeholder="Ingrese anticipo" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputNumber>
+                        </p:panelGrid>
+                        <p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/save.png');background-size: 25px; background-repeat: no-repeat"  value="" actionListener="#{viajeBean.modificarViaje()}" 
+                                         update="frmViaje:tablaViaje, mensaje" 
+                                         oncomplete="PF('dialogModificarViaje').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack" for="track" value="Guardar" trackMouse="true" />
+                        <p:commandButton id="track1" style="height: 35px; width: 60px; background-image: url('../..//Images/cancel.png');background-size: 25px; background-repeat: no-repeat"  value=""                                          
+                                         oncomplete="PF('dialogModificarViaje').hide();">                                            
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack1" for="track1" value="Cancelar" trackMouse="true" />
+                    </p:dialog>
+
+                </h:form>
+                <h:form id="frmAgregar">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgAgregarGto" header="Agregar gastos" widgetVar="dlgAgregar" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">                                                       
+                            <p:outputLabel value="Tipo Viaje"></p:outputLabel>
+                            <p:inputText id="tipo" style="width: 100px;background-color: #CC0505; color: white" value="#{viajeBean.viaje.tipoViaje}" readonly="true"></p:inputText>                          
+                            <p:outputLabel value="Folio"></p:outputLabel>
+                            <p:inputText id="foliador" style="width: 120px; background-color: #CC0505; color: white" value="#{viajeBean.viaje.departamento.substring(0,2)}-#{viajeBean.viaje.nombreViajero}-#{viajeBean.viaje.fechaAno.substring(0,2)}-#{viajeBean.viaje.folioUsuario}" readonly="true"></p:inputText>                          
+                        </p:panelGrid>
+                        <p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/add-expensive.ico');background-size: 25px; background-repeat: no-repeat"  value="" 
+                                         actionListener="#{viajeBean.tipoNE()}" 
+                                         update="frmAgregar,frmViaje:tablaViaje, mensaje" 
+                                         oncomplete="PF('dialogModificarViaje').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack" for="track" value="***Agregar / Editar gastos*** " trackMouse="true" />
+                    </p:dialog>
+
+                </h:form>
+                <h:form id="frmNacional">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgNac" header="Agregar gastos" widgetVar="dlgNacional" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <iframe height="680" width="1320" src="http://etiquetas.marubeni.com.mx:8090/MarubeniMexico/Views/Gastos/ConceptoAvion.jsf">                          
+                        </iframe>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmExtranejro">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgExt" header="Agregar gastos" widgetVar="dlgExtranjero" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <iframe height="680" width="1320" src="http://etiquetas.marubeni.com.mx:8090/MarubeniMexico/Views/Extranjero/USDConceptoAvion.jsf">                          
+                        </iframe>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmProcesarViaje">
+                    <p:blockUI block="panel" trigger="track">   
+                        <h4 style="font-size: 15px; color: black">Enviando gasto del viaje...</h4><br></br>
+                        <p:graphicImage value="../../Images/mail2.gif" style="height: 110px; width: 230px"></p:graphicImage>
+                    </p:blockUI>
+                    <p:panel id="panel">
+
+                        <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                        <p:dialog style="font-size: 12px;" id="dlgProcesarViaje" 
+                                  header="Cerrar y enviar captura de gasto de viaje." 
+                                  widgetVar="dialogProcesarViaje" 
+                                  resizable="false" 
+                                  showEffect="clip" 
+                                  hideEffect="clip" 
+                                  modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+                                <p:outputLabel value="Cerrar captura de viaje"></p:outputLabel>
+                                <p:selectOneMenu required="true" style="width: 200px;" value="#{viajeBean.viaje.status}">
+                                    <f:selectItem itemLabel="Cerrar" itemValue="Cerrar"></f:selectItem>
+                                </p:selectOneMenu>                                                    
+                            </p:panelGrid>
+                            <p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/correo.png');background-size: 35px; background-repeat: no-repeat"  value="" actionListener="#{viajeBean.modificarViaje()}" 
+                                             update="frmViaje:tablaViaje, mensaje" 
+                                             oncomplete="PF('dialogProcesarViaje').hide();">
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrack" for="track" value="Cerrar captura del viaje" trackMouse="true" />
+                            <p:commandButton id="track1" style="height: 35px; width: 60px; background-image: url('../..//Images/cancel.png');background-size: 25px; background-repeat: no-repeat"  value=""                                         
+                                             oncomplete="PF('dialogProcesarViaje').hide();">                                            
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrack1" for="track1" value="Cancelar" trackMouse="true" />
+                        </p:dialog>
+
+                    </p:panel>
+                </h:form>
+
+                <h:form id="frmEliminarViaje" style="font-size: 12px;">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog  id="dlgEliminarUsuario"  header="Eliminar viaje" widgetVar="dialogEliminarViaje" resizable="false" 
+                               showEffect="clip" hideEffect="clip" modal="true">
+                        <h:outputText style="text-align: center" value="¿Desea eliminar este registro?"></h:outputText><br></br><br></br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p:commandButton id="track" style="height: 35px; width: 60px; background-image: url('../..//Images/yes.png');background-size: 25px; background-repeat: no-repeat"  value="" actionListener="#{viajeBean.eliminarViaje()}" 
+                                                                             update="frmViaje:tablaViaje, mensaje,frmMain" 
+                                                                             oncomplete="PF('dialogEliminarViaje').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack" for="track" value="Eliminar registro" trackMouse="true" />
+                        &nbsp;&nbsp;&nbsp;<p:commandButton id="track1" style="height: 35px; width: 60px; background-image: url('../..//Images/cancel.png');background-size: 25px; background-repeat: no-repeat"  value=""                                         
+                                                           oncomplete="PF('dialogEliminarViaje').hide();">                                             
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrack1" for="track1" value="Cancelar" trackMouse="true" />
+                    </p:dialog>
+                </h:form>   
+
+                <h:form id="frmVigencia" style="font-size: 12px">
+                    <p:blockUI block="pnlVig" trigger="cmdVigencia">   
+                        <h4 style="font-size: 15px; color: black">Actualizando contraseña...</h4><br></br>
+                        <p:graphicImage value="../../Images/updating.gif" style="height: 48px; width: 48px"></p:graphicImage>
+                    </p:blockUI>
+                    <p:growl id="mensaje" showSummary="true" showDetail="true" autoUpdate="true"></p:growl>
+                    <p:dialog id="dlgVigencia" header="Cambiar contraseña" widgetVar="dialogVigencia" closable="false">
+                        <p:panel id="pnlVig">
+                            <p:panelGrid id="pnlVigencia" columns="2" style="margin: auto 0">
+                                <h:outputLabel for="pwd1" value="Contraseña anterior"></h:outputLabel>
+                                <p:password id="pwd1" value="#{viajeBean.pwd1}" placeholder="Ingrese contraseña anterior" required="true" label="Ingrese contraseña anterior"></p:password>
+                                <h:outputLabel for="pwd2" value="Nueva contreña" ></h:outputLabel>
+                                <p:password id="pwd2" value="#{viajeBean.pwd2}" placeholder="Ingrese nueva contraseña" required="true" label="Ingrese nueva contraseña"></p:password>
+                                <h:outputLabel for="pwd3" value="Repita contreña"></h:outputLabel>
+                                <p:password id="pwd3" value="#{viajeBean.pwd3}" placeholder="Repita nueva contraseña" required="true" label="Repita nueva contraseña"></p:password>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:commandButton id="cmdVigencia" value="Actualizar" update="pnlVigencia,mensaje" actionListener="#{viajeBean.actualizarContraseña()}"></p:commandButton>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>        
+
+    </h:body>    
+</html>

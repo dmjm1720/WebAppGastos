@@ -1,0 +1,779 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../../plantilla/Template.xhtml">
+
+            <ui:define name="content">
+                <h2>
+                    <img src="../../Images/tel.png" style="width: 120px; height: 120px;" alt=""/>
+                    REGISTRO DE TELEFONÍA E INTERNET-VIAJE NACIONAL
+                </h2>
+
+                <h:form id="frmMain">
+
+<!--                    <p:commandButton value="Agregar boleto de avión" style="height: 30px;" icon="ui-icon-plusthick" actionListener="#{conceptoTelIntBean.prepararNuevoConcepto()}"  oncomplete="PF('dialogNuevoConcepto').show();"  update=":frmNuevoConcepto"> </p:commandButton>                   -->
+<!--                    <p:button id="Inicio" style="height: 45px; width: 50px; background-image: url('../..//Images/homeicon.png');background-size: 40px; background-repeat: no-repeat"
+                              outcome="/Views/Gastos/CapturaViaje.xhtml" value=""> 
+                    </p:button> 
+                    <p:tooltip id="toolTipTrackInicio" for="Inicio" trackMouse="true" value="Captura de encabezado de viaje"></p:tooltip>-->
+                    <p:commandButton id="add" style="height: 45px; width: 50px; background-image: url('../..//Images/add.png');background-size: 45px; background-repeat: no-repeat"
+                                     value=""  actionListener="#{viajeBean.Dialogo()}"> 
+                    </p:commandButton> 
+                    <p:tooltip id="toolTipTrackAdd" for="add" trackMouse="true" value="Agregar gasto de la Telefonía e Internet"></p:tooltip>
+                    <p:commandButton id="reporte" style="height: 45px; width: 50px; background-image: url('../..//Images/reporte.png');background-size: 45px; background-repeat: no-repeat"
+                                     value=""  oncomplete="PF('dlgVerReporte').show();">                                        
+                    </p:commandButton> 
+                    <p:tooltip id="toolTipTrackReporte" for="reporte" trackMouse="true" value="Ver reporte actual de gastos"></p:tooltip>
+                    <p:dialog style="font-size: 12px;" header="Marubeni México" widgetVar="dlg2" modal="true" showEffect="bounce" hideEffect="explode" height="100" width="200" resizable="false">
+                        <br></br>
+                        <h:outputText value="¿Tienes XML?" />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <p:commandButton id="t1" style="height: 35px; width: 50px; background-image: url('../..//Images/si.png');background-size: 30px; background-repeat: no-repeat"  
+                                         value="" type="button" onclick="PF('dlg3').show();PF('dlg2').hide();">                                        
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt1" for="t1" trackMouse="true" value="Agregar XML"></p:tooltip>
+                        &nbsp;<p:commandButton id="t2" style="height: 35px; width: 50px; background-image: url('../..//Images/no.png');background-size: 30px; background-repeat: no-repeat"  
+                                               value="" actionListener="#{conceptoTelIntBean.prepararNuevoConcepto()}"    oncomplete="PF('dialogNuevoConcepto').show();PF('dlg2').hide();" update=":frmNuevoConcepto">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt2" for="t2" trackMouse="true" value="Captura manual del gasto"></p:tooltip>
+                    </p:dialog>
+
+                    <h:form id="hijo">
+                        <p:dialog style="font-size: 12px;" header="Agregar XML" widgetVar="dlg3" showEffect="explode" 
+                                  hideEffect="bounce"  height="200" resizable="false" modal="true">
+                            <p:growl id="mensaje" life="10000" showSummary="true" showDetail="true"></p:growl>
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+                                <h:form id="form">
+                                    <p:growl id="mensajes" showSummary="true" showDetail="true"></p:growl>
+                                    <p:fileUpload label="Seleccionar archivo (s)" 
+                                                  cancelLabel="Cancelar" 
+                                                  uploadLabel="Subir archivo (s)" 
+                                                  invalidFileMessage="Archivos permitidos PDF y XML"
+                                                  fileUploadListener="#{FileUploadTelIntBean.upload}" 
+                                                  allowTypes="/(\.|\/)(xml|pdf|XML|PDF)$/" 
+                                                  multiple="false" 
+                                                  mode="advanced" 
+                                                  update="mensajes" 
+                                                  sizeLimit="9000000">
+                                    </p:fileUpload>                                
+                                </h:form>       
+                            </p:panelGrid>
+                            <p:commandButton id="t3" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                             value=""  update="frmConcepto:tablaConcepto" oncomplete="PF('dlg3').hide();">                                   
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackt3" for="t3" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                        </p:dialog>
+
+                        <p:dialog style="font-size: 12px;" id="tarjeta" header="Gasto pagado con Tarjeta coorporativa" widgetVar="dlgTarjeta" 
+                                  resizable="false" showEffect="explode" hideEffect="explode" modal="true">                        
+                            <br></br>
+                            <h:outputText value="¿Gasto pagado con Tarjeta Corporativa?"/>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p:commandButton id="si" type="button" 
+                                             style="height: 35px; width: 50px; background-image: url('../..//Images/si.png');background-size: 30px; background-repeat: no-repeat" 
+                                             value=""  onclick="PF('dlgTC').show();PF('dlgTarjeta').hide();">                            
+                            </p:commandButton> 
+                            <p:tooltip id="toolTipTrack" for="si" value="Gasto pagado con Tarjeta Corporativa" trackMouse="true" />
+                            &nbsp;<p:commandButton id="no" type="button" 
+                                                   style="height: 35px; width: 50px; background-image: url('../..//Images/no.png');background-size: 30px; background-repeat: no-repeat"  
+                                                   value="" onclick="PF('dlg2').show();PF('dlgTarjeta').hide();">                                            
+                            </p:commandButton> 
+                            <p:tooltip id="toolTipTrack1" for="no" value="Gasto pagado sin Tarjeta Corporativa" trackMouse="true" />
+                        </p:dialog>                                            
+
+                        <p:dialog style="font-size: 12px;" id="tc" header="Gasto pagado con Tarjeta coorporativa" widgetVar="dlgTC" resizable="false" showEffect="explode" hideEffect="explode" modal="true">                        
+                            <br></br>
+                            <h:outputText value="¿Tienes XML?" />
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p:commandButton id="sixml" style="height: 35px; width: 50px; background-image: url('../..//Images/si.png');background-size: 30px; background-repeat: no-repeat"  
+                                             value="" type="button"  onclick="PF('dlg4').show();PF('dlgTC').hide();">                          
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackSi" for="sixml" trackMouse="" value="Agregar XML"></p:tooltip>
+                            &nbsp;<p:commandButton id="noxml" style="height: 35px; width: 50px; background-image: url('../..//Images/no.png');background-size: 30px; background-repeat: no-repeat"  
+                                                   value="" actionListener="#{conceptoTelIntBean.prepararNuevoConcepto()}"   oncomplete="PF('dialogNuevoConTCoorp').show();PF('dlgTC').hide();" update=":frmNuevoConcepto">
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackNo" for="noxml" trackMouse="true" value="Capturar gastos manualmente"></p:tooltip>
+                        </p:dialog>
+
+                        <p:dialog style="font-size: 12px;" header="Agregar XML" widgetVar="dlg4" showEffect="explode" 
+                                  hideEffect="bounce"  height="200" resizable="false" modal="true">
+                            <p:growl id="mensajes" life="10000" showSummary="true" showDetail="true"></p:growl>
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+                                <h:form id="form1">
+                                    <p:growl id="mensajes" showSummary="true" showDetail="true"></p:growl>
+                                    <p:fileUpload label="Seleccionar archivo (s)" 
+                                                  cancelLabel="Cancelar" 
+                                                  uploadLabel="Subir archivo (s)" 
+                                                  invalidFileMessage="Archivos permitidos PDF y XML"
+                                                  fileUploadListener="#{FileUploadTelIntTCBean.upload}" 
+                                                  allowTypes="/(\.|\/)(xml|pdf|XML|PDF)$/" 
+                                                  multiple="false" 
+                                                  mode="advanced" 
+                                                  update="mensajes" 
+                                                  sizeLimit="9000000">
+                                    </p:fileUpload>                                
+                                </h:form>       
+                            </p:panelGrid>
+                            <p:commandButton id="cerrarXML" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"  
+                                             value="" update="frmConcepto:tablaConcepto" oncomplete="PF('dlg4').hide();">         
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackCerrarXML" for="cerrarXML" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                        </p:dialog>
+
+                        <!--Para actualizar el pdf-->
+                        <p:dialog style="font-size: 12px;" header="Agregar PDF" widgetVar="dlgPDF" showEffect="explode" 
+                                  hideEffect="bounce"  height="200" resizable="false" modal="true">
+                            <p:growl id="mensajes3" life="10000" showSummary="true" showDetail="true"></p:growl>
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+                                <h:form id="form2">
+                                    <p:growl id="mensajes3" showSummary="true" showDetail="true"></p:growl>
+                                    <p:fileUpload label="Seleccionar archivo (s)"
+                                                  invalidFileMessage="Archivos permitidos PDF"
+                                                  cancelLabel="Cancelar" 
+                                                  uploadLabel="Subir archivo (s)" 
+                                                  fileUploadListener="#{PdfUpdateBean.upload}" 
+                                                  allowTypes="/(\.|\/)(pdf|PDF)$/" 
+                                                  multiple="false" 
+                                                  mode="advanced" 
+                                                  update="mensajes3" 
+                                                  sizeLimit="9000000">
+                                    </p:fileUpload>                                
+                                </h:form>       
+                            </p:panelGrid>
+                            <p:commandButton id="cerrarPDF" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"  
+                                             value="" update="frmConcepto:tablaConcepto" oncomplete="PF('dlgPDF').hide();window.location.reload();">         
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackCerrarPDF" for="cerrarPDF" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                        </p:dialog>
+                        <!--Para actualizar el pdf-->
+                        <!--Para subir la imagen-->
+                        <p:dialog style="font-size: 12px;" 
+                                  closable="false"
+                                  header="Agregar Imagen" 
+                                  widgetVar="dlgIMG" 
+                                  showEffect="explode" 
+                                  hideEffect="bounce"  height="200" resizable="false" modal="true">
+                            <p:growl id="mensajes4" life="10000" showSummary="true" showDetail="true"></p:growl>
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+                                <h:form id="formImg">
+                                    <p:growl id="mensajes4" showSummary="true" showDetail="true"></p:growl>
+                                    <p:fileUpload label="Seleccionar archivo (s)"
+                                                  invalidFileMessage="Archivos permitidos JPG"
+                                                  cancelLabel="Cancelar" 
+                                                  uploadLabel="Subir archivo (s)" 
+                                                  fileUploadListener="#{ImgNewBean.upload}" 
+                                                  allowTypes="/(\.|\/)(jpg|JPG)$/" 
+                                                  multiple="false" 
+                                                  mode="advanced" 
+                                                  update="mensajes4" 
+                                                  sizeLimit="9000000">
+                                    </p:fileUpload>                                
+                                </h:form>       
+                            </p:panelGrid>
+                            <p:commandButton id="cerrarIMG" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"  
+                                             value="" update="frmConcepto:tablaConcepto" oncomplete="PF('dlgIMG').hide();">         
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackCerrarIMG" for="cerrarIMG" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                        </p:dialog>
+                        <!--Para subir la imagen-->
+                        <!--Para subir la imagen con TC-->
+                        <p:dialog style="font-size: 12px;" 
+                                  closable="false"
+                                  header="Agregar Imagen" 
+                                  widgetVar="dlgIMGTC" 
+                                  showEffect="explode" 
+                                  hideEffect="bounce"  height="200" resizable="false" modal="true">
+                            <p:growl id="mensajes4TC" life="10000" showSummary="true" showDetail="true"></p:growl>
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+                                <h:form id="formImgTC">
+                                    <p:growl id="mensajes4TC" showSummary="true" showDetail="true"></p:growl>
+                                    <p:fileUpload label="Seleccionar archivo (s)"
+                                                  invalidFileMessage="Archivos permitidos JPG"
+                                                  cancelLabel="Cancelar" 
+                                                  uploadLabel="Subir archivo (s)" 
+                                                  fileUploadListener="#{ImgNewBean.upload}" 
+                                                  allowTypes="/(\.|\/)(jpg|JPG)$/" 
+                                                  multiple="false" 
+                                                  mode="advanced" 
+                                                  update="mensajes4TC" 
+                                                  sizeLimit="9000000">
+                                    </p:fileUpload>                                
+                                </h:form>       
+                            </p:panelGrid>
+                            <p:commandButton id="cerrarIMGTC" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"  
+                                             value="" update="frmConcepto:tablaConcepto" oncomplete="PF('dlgIMGTC').hide();">         
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackCerrarIMGTC" for="cerrarIMGTC" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                        </p:dialog>
+                        <!--Para subir la imagen con TC-->
+                        <!--Para actualizar la imagen-->
+                        <p:dialog style="font-size: 12px;" header="Agregar Imagen del Comprobante del Gasto" widgetVar="dlgUpdateImg" showEffect="explode" 
+                                  hideEffect="bounce"  height="200" resizable="false" modal="true">
+                            <p:growl id="mensajesImg" life="10000" showSummary="true" showDetail="true"></p:growl>
+                            <p:panelGrid columns="2" style="margin: 0 auto">
+                                <h:form id="form2Img">
+                                    <p:growl id="mensajesImg" showSummary="true" showDetail="true"></p:growl>
+                                    <p:fileUpload label="Seleccionar archivo (s)"
+                                                  invalidFileMessage="Archivos permitidos JPG"
+                                                  cancelLabel="Cancelar" 
+                                                  uploadLabel="Subir archivo (s)" 
+                                                  fileUploadListener="#{ImgUpdateBean.upload}" 
+                                                  allowTypes="/(\.|\/)(jpg|JPG)$/" 
+                                                  multiple="false" 
+                                                  mode="advanced" 
+                                                  update="mensajesImg" 
+                                                  sizeLimit="9000000">
+                                    </p:fileUpload>                                
+                                </h:form>       
+                            </p:panelGrid>
+                            <p:commandButton id="cerrarImg" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"  
+                                             value="" update="frmConcepto:tablaConcepto" oncomplete="PF('dlgUpdateImg').hide();window.location.reload();">         
+                            </p:commandButton>
+                            <p:tooltip id="toolTipTrackCloseIMG" for="cerrarImg" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                        </p:dialog>
+                        <!--Para actualizar la imagen-->
+
+                        <p:commandButton id="detalle" style="height: 45px; width: 50px; background-image: url('../..//Images/detalle.png');background-size: 40px; background-repeat: no-repeat"
+                                         value="" type="button" >                                             
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackDetalle" for="detalle" trackMouse="true" value="Ver detalle del gasto actual"></p:tooltip>
+
+                        <p:commandButton id="updatepdf" style="height: 45px; width: 50px; background-image: url('../..//Images/pdfupdate.png');background-size: 90px; background-repeat: no-repeat"
+                                         disabled="#{empty PerfilBean.listaModificar}" value=""  oncomplete="PF('dlgPDF').show();">                            
+                        </p:commandButton> 
+                        <p:tooltip id="toolTipTrackupdatePDF" for="updatepdf" trackMouse="true" value="Actualizar PDF"></p:tooltip>
+                        <!--Para actualizar la foto del comprobante del Gasto-->
+                        <p:commandButton id="updateIMG" style="height: 45px; width: 50px; background-image: url('../..//Images/camara.png');background-size: 52px; background-repeat: no-repeat"
+                                         disabled="#{empty PerfilBean.listaModificar}" value=""  oncomplete="PF('dlgUpdateImg').show();">                            
+                        </p:commandButton> 
+                        <p:tooltip id="toolTipTrackupdateIMG" for="updateIMG" trackMouse="true" value="Subir imagen del Gasto "></p:tooltip>
+                        <!--Para actualizar la foto del comprobante del Gasto-->
+                        <p:overlayPanel id="moviePanel" for="detalle" hideEffect="fade" dynamic="true" style="width:1200px">
+
+                            <p:dataTable id="tablaDetalle" paginatorPosition="top" style="font-size: 9px" var="tbl" value="#{conceptoTelIntBean.listaConcepto}">
+                                <f:facet name="header">
+                                    Detallado XML
+                                </f:facet>
+                                <p:column headerText="Importe">
+                                    <h:outputText value="#{tbl.importe}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="IVA">
+                                    <h:outputText value="#{tbl.iva}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="TUA">
+                                    <h:outputText value="#{tbl.tua}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="Factura">
+                                    <h:outputText value="#{tbl.factura}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="UUID">
+                                    <h:outputText value="#{tbl.uuid}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="RFC Emisor">
+                                    <h:outputText value="#{tbl.rfc}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="Nombre Emisor">
+                                    <h:outputText value="#{tbl.nombre}"></h:outputText>
+                                </p:column>                       
+                                <p:column headerText="RFC Receptor">
+                                    <h:outputText value="#{tbl.rfcreceptor}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="Nombre Receptor">
+                                    <h:outputText value="#{tbl.nombreReceptor}"></h:outputText>
+                                </p:column>                       
+                                <p:column headerText="Estatus SAT">
+                                    <h:outputText value="#{tbl.estatus}"></h:outputText>
+                                </p:column>                       
+                                <p:column headerText="Total MXN">
+                                    <h:outputText value="#{tbl.totalmxn}"></h:outputText>
+                                </p:column>                       
+                            </p:dataTable>  
+                        </p:overlayPanel>  
+
+                    </h:form>
+                </h:form>                
+
+
+                <br></br>
+                <h:form id="frmConcepto"> 
+
+                    <p:panel header="" style="margin: 0 auto; text-align: center;">
+                        <p:layout id="capaDatosViaje" style="width: 100%; height: 400px;">
+                            <p:layoutUnit id="datosViaje" position="west" style="padding: 5px; text-align: justify; font-size: 11px;">
+                                <p:panelMenu style="width:180px">
+                                    <p:submenu label="Boletos" icon="ui-icon-refresh">
+                                        <p:menuitem value="Boleto de Avión" outcome="/Views/Gastos/ConceptoAvion" ajax="false" icon="ui-icon-plusthick"/>
+                                        <p:menuitem value="Cargos Extra" outcome="/Views/Gastos/ConceptoCargos" ajax="false" icon="ui-icon-plusthick"/>
+                                        <p:menuitem value="Taxi" outcome="/Views/Gastos/ConceptoTaxi" ajax="false" icon="ui-icon-plusthick"/>
+                                        <p:menuitem value="Autobus-Tren" outcome="/Views/Gastos/ConceptoAutobus" ajax="false" icon="ui-icon-plusthick"/>
+                                        <p:menuitem value="Gasolina" outcome="/Views/Gastos/ConceptoGasolina" ajax="false" icon="ui-icon-plusthick"/>                                    
+                                        <p:menuitem value="Renta de auto" outcome="/Views/Gastos/ConceptoAuto" ajax="false" icon="ui-icon-plusthick"/>
+                                        <p:menuitem value="Casetas" outcome="/Views/Gastos/ConceptoCasetas" ajax="false" icon="ui-icon-plusthick"/>                                          
+                                        <p:menuitem value="Hotel" outcome="/Views/Gastos/ConceptoHotel" ajax="false" icon="ui-icon-plusthick"/>                                          
+                                    </p:submenu> 
+                                </p:panelMenu>
+                                <p:panelMenu style="width:180px">
+                                    <p:submenu label="Comunicaciones" icon="ui-icon-refresh">       
+                                        <p:menuitem value="Telefonía e Internet" outcome="/Views/Gastos/ConceptoTelInt" ajax="false" icon="ui-icon-plusthick"/>
+                                        <p:menuitem value="Mensajería" outcome="/Views/Gastos/ConceptoMensajeria" ajax="false" icon="ui-icon-plusthick"/>
+                                        <p:menuitem value="Otros" outcome="/Views/Gastos/ConceptoOtro" ajax="false" icon="ui-icon-plusthick"/>
+                                    </p:submenu> 
+                                </p:panelMenu>
+                                <p:panelMenu style="width:180px">
+                                    <p:submenu label="Comprobación de gastos" icon="ui-icon-refresh">       
+                                        <p:menuitem value="Viáticos" outcome="/Views/Gastos/ConceptoAsigna" ajax="false" icon="ui-icon-plusthick"/>
+                                    </p:submenu> 
+                                </p:panelMenu>
+
+                            </p:layoutUnit>
+                            <p:layoutUnit id="datosConcepto" position="center" style="padding: 5px; text-align: center; font-size: 11px;">
+
+                                <p:dataTable id="tablaConcepto" 
+                                             paginator="true"
+                                             sortMode="multiple"
+                                             paginatorPosition="top" 
+                                             rows="10"
+                                             tableStyle="width:auto" 
+                                             var="tbl" 
+                                             value="#{conceptoTelIntBean.listaConcepto}">
+                                    <p:ajax event="sort" skipChildren="false" />
+                                    <p:column headerText="Importe">
+                                        <h:outputText value="#{tbl.importe}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="IVA">
+                                        <h:outputText value="#{tbl.iva}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="TUA">
+                                        <h:outputText value="#{tbl.tua}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Factura">
+                                        <h:outputText value="#{tbl.factura}"></h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Total MXN">
+                                        <h:outputText value="#{tbl.totalmxn}"></h:outputText>
+                                    </p:column>                       
+                                    <p:column filterBy="#{tbl.folioUsuario}" sortBy="#{tbl.folioUsuario}" headerText="Folio Usuario">
+                                        <h:outputText value="#{tbl.folioUsuario}"></h:outputText>
+                                    </p:column>                       
+                                    <p:column headerText="Comentario">
+<!--                                        <h:outputText value="#{tbl.comentario}" style="#{tbl.comentario eq 'RFC INVALIDO, NO CORRESPONDE A MARUBENI MEXICO' ? 'color: #CD0707;font-weight: bold;':(tbl.comentario eq 'Rescheduled till Further Notice' ? 'color: blue;font-weight: bold;' : 'color: black;')}"></h:outputText>-->
+                                        <h:outputText value="#{tbl.comentario}" style="#{tbl.comentario eq 'RFC en XML no corresponde a Marubeni' ? 'color: #CD0707;font-weight: bold;' : 'color: black;'}"></h:outputText>
+                                    </p:column>                                                                                                                                                                                                      
+                                    <p:column headerText="Pagado con Tarjeta Corporativa">
+                                        <h:outputText value="#{tbl.tarjeta}"></h:outputText>
+                                    </p:column>                                                                   
+                                    <p:column headerText="Editar Registro" style="width: 65px;">
+                                        <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/edit.ico');background-size: 15px; background-repeat: no-repeat" 
+                                                         value="" oncomplete="PF('dialogModificarConcepto').show();" update="frmModificarConcepto">
+                                            <f:setPropertyActionListener target="#{conceptoTelIntBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>
+                                    </p:column>
+                                    <p:column headerText="Detalle XML" style="width: 65px;">
+                                        <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/xml.png');background-size: 20px; background-repeat: no-repeat"
+                                                         value=""  oncomplete="PF('dialogVerConcepto').show();" update="frmVerConcepto">
+                                            <f:setPropertyActionListener target="#{conceptoTelIntBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>
+                                    </p:column>
+
+                                    <p:column headerText="Ver Factura" style="width: 65px;">
+                                        <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/verxml.png');background-size: 20px; background-repeat: no-repeat"
+                                                         value="" disabled="#{empty tbl.rutaXml}" oncomplete="PF('dialogVerXML').show();" update="frmVerXML">
+                                            <f:setPropertyActionListener target="#{conceptoTelIntBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>                                   
+                                    </p:column>
+                                    <p:column headerText="Ver Imagen" style="width: 65px;">
+                                        <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/foto.png');background-size: 20px; background-repeat: no-repeat"
+                                                         value="" disabled="#{empty tbl.imagen}" oncomplete="PF('dialogVerIMG').show();" update="frmVerIMG">
+                                            <f:setPropertyActionListener target="#{conceptoTelIntBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>                                   
+                                    </p:column>
+                                    <p:column headerText="Actualizar PDF-Imagen" style="width: 65px;">
+                                        <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/refresh.png');background-size: 20px; background-repeat: no-repeat"
+                                                         value="" oncomplete="PF('dialogEditarPDF').show();" update="frmModificarPDF">
+                                            <f:setPropertyActionListener target="#{conceptoTelIntBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                                        </p:commandButton>
+                                    </p:column>
+                                    <p:column headerText="Eliminar" style="width: 65px;">
+                                        <p:commandButton style="height: 20px; width: 34px; background-image: url('../..//Images/delete.ico');background-size: 15px; background-repeat: no-repeat"
+                                                         value="" oncomplete="PF('dialogEliminarConcepto').show();" update="frmEliminarConcepto">
+                                            <f:setPropertyActionListener target="#{conceptoTelIntBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>                  
+                                        </p:commandButton>
+                                    </p:column>                     
+                                </p:dataTable>
+                            </p:layoutUnit>                              
+                        </p:layout>
+                    </p:panel>
+
+                </h:form>
+                <h:form id="frmModificarConcepto">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgModificarConcepto" header="Modificar Concepto" widgetVar="dialogModificarConcepto" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="4" style="margin: 0 auto">
+                            <p:outputLabel value="Concepto*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.nombreConcepto}" disabled="true"></p:inputText>
+                            <p:outputLabel value="Importe*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.importe}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="IVA*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.iva}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="TUA*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.tua}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="Factura*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.factura}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="UUID*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.uuid}" style="width: 260px" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="RFC*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.rfc}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="Razón Social*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.nombre}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="Estatus XML*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.estatus}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="Total MXN*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.totalmxn}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="Total USD*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.totalusd}" disabled="#{!empty conceptoTelIntBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="Comentario"></p:outputLabel>
+                            <p:inputTextarea value="#{conceptoTelIntBean.concepto.comentario}" style="width: 260px;" ></p:inputTextarea>
+                            <p:outputLabel value="Nombre usuario*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.nombreUsuario}" disabled="true"></p:inputText>
+                            <p:outputLabel value="Folio usuario*"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.folioUsuario}" disabled="true"></p:inputText>
+                        </p:panelGrid>
+                        <p:commandButton id="editarCambios" style="height: 35px; width: 50px; background-image: url('../..//Images/save.png');background-size: 30px; background-repeat: no-repeat"
+                                         value=""  actionListener="#{conceptoTelIntBean.modificarConcepto()}" update="frmConcepto:tablaConcepto, mensaje" oncomplete="PF('dialogModificarConcepto').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackCambios" for="editarCambios" trackMouse="true" value="Guardar cambios"></p:tooltip>
+                        <p:commandButton id="editarCancelar" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value=""  oncomplete="PF('dialogModificarConcepto').hide();">              
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackCancelar" for="editarCancelar" trackMouse="true" value="Cancelar cambios"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmModificarPDF">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgModificarPDF" header="Reemplazar arhivo" widgetVar="dialogEditarPDF" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="4" style="margin: 0 auto">
+                            <p:outputLabel value="¿Deseas actualizar el archivo?"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.modificarArchivo}">
+                                <f:selectItem  itemLabel="Si" itemValue="Si"></f:selectItem>
+                                <f:selectItem  itemLabel="No" itemValue="No"></f:selectItem>
+                            </p:selectOneMenu>                      
+                        </p:panelGrid>
+                        <p:commandButton id="editarSi" style="height: 35px; width: 50px; background-image: url('../..//Images/save.png');background-size: 30px; background-repeat: no-repeat"
+                                         value=""  actionListener="#{conceptoTelIntBean.modificarConcepto()}" update="frmMain:hijo:updateIMG,frmMain:hijo:updatepdf,frmConcepto:tablaConcepto, mensaje" oncomplete="PF('dialogEditarPDF').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackCambiosPDF" for="editarSi" trackMouse="true" value="Guardar cambios"></p:tooltip>
+                        <p:commandButton id="editarCancelarPDF" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value=""  oncomplete="PF('dialogEditarPDF').hide();">              
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackCancelar" for="editarCancelarPDF" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmVerConcepto">
+                    <p:dialog style="font-size: 12px;" id="dlgVerConcepto" header="Ver detalle del XML" widgetVar="dialogVerConcepto" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Concepto"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.nombreConcepto}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Importe"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.importe}" readonly="true"></p:inputText>
+                            <p:outputLabel value="IVA"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.iva}" readonly="true"></p:inputText>
+                            <p:outputLabel value="TUA"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.tua}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Factura"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.factura}" readonly="true"></p:inputText>
+                            <p:outputLabel value="UUID"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.uuid}" style="width: 260px" readonly="true"></p:inputText>
+                            <p:outputLabel value="RFC"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.rfc}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Razón Social"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.nombre}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Estatus XML"></p:outputLabel>                                               
+                            <p:inputText value="#{conceptoTelIntBean.concepto.estatus}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Total MXN"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.totalmxn}" readonly="true"></p:inputText>
+                            <p:outputLabel value="PDF"></p:outputLabel>
+                            <object type="application/pdf" data="#{conceptoTelIntBean.concepto.rutaPdf}" height="200px" width="790px" internalinstanceid="5">
+                                Your browser can't display pdf, <a href="#{conceptoTelIntBean.concepto.rutaPdf}">click</a> to download pdf instead.
+                            </object> 
+<!--                            <p:outputLabel value="Imagen"></p:outputLabel>
+                            <p:graphicImage value="#{conceptoTelIntBean.concepto.rutaImagen}" style="height: 100px;"></p:graphicImage>
+                            <p:outputLabel value="Comentario"></p:outputLabel>
+                            <p:inputTextarea value="#{conceptoTelIntBean.concepto.comentario}" style="width: 400px" readonly="true"></p:inputTextarea>
+                            <p:outputLabel value="Nombre usuario"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.nombreUsuario}" readonly="true"></p:inputText>
+                            <p:outputLabel value="Folio usuario"></p:outputLabel>
+                            <p:inputText value="#{conceptoTelIntBean.concepto.folioUsuario}" readonly="true"></p:inputText>-->
+                        </p:panelGrid>
+
+                        <p:commandButton id="t4" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" oncomplete="PF('dialogVerConcepto').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt4" for="t4" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+
+
+                <h:form id="frmEliminarConcepto">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgEliminarConcepto" header="Eliminar concepto" widgetVar="dialogEliminarConcepto" 
+                              height="120" width="220" resizable="false" showEffect="clip" hideEffect="clip" modal="true">
+                        <br></br>
+                        <h:outputText value="¿Desea eliminar este registro?   "></h:outputText><br></br><br></br><br></br><br></br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <p:commandButton id="t9" style="height: 35px; width: 50px; background-image: url('../..//Images/si.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" actionListener="#{conceptoTelIntBean.eliminarConcepto()}" update="frmConcepto:tablaConcepto, mensaje" oncomplete="PF('dialogEliminarConcepto').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt9" for="t9" trackMouse="true" value="Eliminar definitivamente el registro"></p:tooltip>
+                        &nbsp;<p:commandButton id="t10" style="height: 35px; width: 50px; background-image: url('../..//Images/no.png');background-size: 30px; background-repeat: no-repeat"
+                                               value="" oncomplete="PF('dialogEliminarConcepto').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt10" for="t10" trackMouse="true" value="Cancelar"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+
+                <!--Para agregar datos sin XML y sin Tarjeta Corporativa-->
+                <h:form id="frmNuevoConcepto">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgnuevoConcepto" header="Agregar concepto" widgetVar="dialogNuevoConcepto" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+
+                            <p:outputLabel  value="Concepto"></p:outputLabel>                         
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.nombreConcepto}">
+                                <f:selectItem itemLabel="Tel-Int" itemValue="Tel-Int"></f:selectItem>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel value="Importe"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.importe}" label="Ingrese Importe" required="true" placeholder="Ingrese importe" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Factura"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.factura}" label="Ingrese factura" required="true" placeholder="Ingrese factura" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Total MXN"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.totalmxn}" label="Ingrese total MXN" required="true" placeholder="Ingrese total MXN" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Comentario"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.comentario}" label="Ingrese comentario" required="true" placeholder="Ingrese comentario" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Gasto pagado con T. Coorp."></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.tarjeta}">
+                                <f:selectItem  itemLabel="No" itemValue="No"></f:selectItem>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Tipo de viaje"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.tipo}">
+                                <f:selectItem  itemLabel="Nacional" itemValue="Nacional"></f:selectItem>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Folio"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.folioUsuario}">
+                                <f:selectItems value="#{conceptoTelIntBean.listaFolio}"></f:selectItems>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel value="Nombre Usuario"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.nombreUsuario}">
+                                <f:selectItems value="#{conceptoTelIntBean.listNombreUsuario}"></f:selectItems>
+                            </p:selectOneMenu>   
+                        </p:panelGrid>
+                        <br></br>
+                        <br></br>
+                        <p:commandButton id="t7" style="height: 35px; width: 50px; background-image: url('../..//Images/save.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" actionListener="#{conceptoTelIntBean.nuevoConcepto()}" update="frmConcepto:tablaConcepto,mensaje">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt7" for="t7" trackMouse="true" value="Guardar gasto"></p:tooltip>
+                        <p:commandButton id="t8" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" update="mensaje" oncomplete="PF('dialogNuevoConcepto').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt8" for="t8" trackMouse="true" value="Cancelar captura"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+                <!--Para agregar datos sin XML y sin Tarjeta Corporativa-->
+
+                <!--Para agregar datos sin XML y con Tarjeta Corporativa-->
+                <h:form id="frmNuevoConceptoTC">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgnuevoConceptoTC" header="Agregar concepto" widgetVar="dialogNuevoConTCoorp" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+
+                            <p:outputLabel  value="Concepto"></p:outputLabel>                         
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.nombreConcepto}">
+                                <f:selectItem itemLabel="Tel-Int" itemValue="Tel-Int"></f:selectItem>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel value="Importe"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.importe}" label="Ingrese importe" required="true" placeholder="Ingrese importe" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Factura"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.factura}" label="Ingrese factura" required="true" placeholder="Ingrese factura" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Total MXN"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.totalmxn}" label="Ingrese total MXN" required="true" placeholder="Ingrese total MXN" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Comentario"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoTelIntBean.concepto.comentario}" label="Ingrese comentario" required="true" placeholder="Ingrese comentario" onkeyup="javascript:this.value = this.value.toUpperCase();"></p:inputText>
+
+                            <p:outputLabel value="Gasto pagado con T. Coorp."></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.tarjeta}">
+                                <f:selectItem  itemLabel="Si" itemValue="Si"></f:selectItem>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Tipo de viaje"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.tipo}">
+                                <f:selectItem  itemLabel="Nacional" itemValue="Nacional"></f:selectItem>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Folio"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.folioUsuario}">
+                                <f:selectItems value="#{conceptoTelIntBean.listaFolio}"></f:selectItems>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel value="Nombre Usuario"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{conceptoTelIntBean.concepto.nombreUsuario}">
+                                <f:selectItems value="#{conceptoTelIntBean.listNombreUsuario}"></f:selectItems>
+                            </p:selectOneMenu>   
+                        </p:panelGrid>
+                        <br></br>
+                        <br></br>
+                        <p:commandButton id="t7" style="height: 35px; width: 50px; background-image: url('../..//Images/save.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" actionListener="#{conceptoTelIntBean.nuevoConcepto()}" update="frmConcepto:tablaConcepto,mensaje">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt7" for="t7" trackMouse="true" value="Guardar gasto"></p:tooltip>
+                        <p:commandButton id="t8" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" update="mensaje" oncomplete="PF('dialogNuevoConTCoorp').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt8" for="t8" trackMouse="true" value="Cancelar captura"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+                <!--Para agregar datos sin XML y sin Tarjeta Corporativa-->
+
+
+                <h:form id="frmVerReporte" style="align-content: center">
+                    <p:growl id="mensaje" life="20000" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgVerReporte" header="Visualizar reporte" widgetVar="dlgVerReporte" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:outputLabel value="Código SAP"></p:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <p:selectOneMenu required="true" style="width: 200px;" value="#{reporteGastoBean.nombreUsuario}">
+                            <f:selectItems value="#{conceptoTaxiBean.listNombreUsuario}"></f:selectItems>
+                        </p:selectOneMenu> 
+                        <br></br>
+                        <br></br>
+                        <p:outputLabel value="Folio"></p:outputLabel>
+                        <br></br>
+                        <br></br>
+                        <p:selectOneMenu required="true" style="width: 200px;" value="#{reporteGastoBean.folioUsuario}">
+                            <f:selectItems value="#{conceptoTaxiBean.listaFolio}"></f:selectItems>
+                        </p:selectOneMenu> 
+                        <br></br>
+                        <br></br>
+                        <h:commandLink id="reporte" 
+                                       value="Ver Reporte" 
+                                       style="height: 30px; font-size: 16px" 
+                                       target="_blank" 
+                                       actionListener="#{reporteGastoBean.reporteGastoBean()}">
+                        </h:commandLink> 
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <p:commandButton id="cerrar" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" oncomplete="PF('dlgVerReporte').hide();">                                        
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackCerrar" for="cerrar" trackMouse="true" value="Cerrar ventana del reporte"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+
+
+                <h:form id="frmVer">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgVer" header="Visualizar factura" widgetVar="dialogVerPDF" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="1" style="margin: 0 auto">
+
+                            <p:outputLabel value="Factura PDF"></p:outputLabel>
+                            <object type="application/pdf" data="#{conceptoTelIntBean.concepto.rutaPdf}" height="550px" width="900px" internalinstanceid="5">
+                                Your browser can't display pdf, <a href="#{conceptoTelIntBean.concepto.rutaPdf}">click</a> to download pdf instead.
+                            </object> 
+
+                        </p:panelGrid>
+
+                        <p:commandButton id="t6" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" oncomplete="PF('dialogVerPDF').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt6" for="t6" trackMouse="true" value="Cerrar ventana"></p:tooltip>
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmVerIMG">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgVer" header="Visualizar Imagen" widgetVar="dialogVerIMG" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="1" style="margin: 0 auto">
+
+                            <p:outputLabel value="Factura Imagen"></p:outputLabel>
+                             <h:commandLink value="Ver imagen" actionListener="#{conceptoTelIntBean.verImagen()}" target="_blank"/>
+<!--                            <p:graphicImage value="{conceptoTelIntBean.concepto.rutaImagen}" style="height: 530px;"></p:graphicImage>-->
+                        </p:panelGrid>
+<!--
+                        <p:commandButton id="t6" style="height: 35px; width: 50px; background-image: url('../..//Images/cancel.png');background-size: 30px; background-repeat: no-repeat"
+                                         value="" oncomplete="PF('dialogVerIMG').hide();">
+                        </p:commandButton>
+                        <p:tooltip id="toolTipTrackt6" for="t6" trackMouse="true" value="Cerrar ventana"></p:tooltip>-->
+                    </p:dialog>
+                </h:form>
+
+
+
+                <h:form id="frmVerXML">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog style="font-size: 12px;" id="dlgVerXML" header="Visualizar factura del XML" widgetVar="dialogVerXML" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="1" style="margin: 0 auto">
+                            <p:outputLabel value="UUID"></p:outputLabel>
+                            <p:inputText id="uuid" value="#{conceptoTelIntBean.concepto.uuid}" style="width: 250px" readonly="true"></p:inputText>
+                        </p:panelGrid><br></br>
+                        <p:spacer width="110px" height="5px"></p:spacer>
+                        <h:commandLink id="reporte" 
+                                       value="" 
+                                       style="height: 30px;  font-size: 16px" 
+                                       target="_blank" 
+                                       actionListener="#{viajeBean.visualizarCFDI_PDF()}" onclick="PF('dialogVerXML').hide()">
+                            <h:graphicImage url="/Images/cdfi-pdf.png" style="height: 80px"/> 
+                        </h:commandLink>                       
+                    </p:dialog>
+                </h:form>
+
+                
+                
+                <p:dialog style="font-size: 14px;" id="frmSubirImagen" header="SUBIR IMAGEN" widgetVar="dlgSubirImagen">
+                    <h:form enctype="multipart/form-data">
+                        <p:fileUpload value="#{conceptoTelIntBean.file}" mode="simple" required="true" requiredMessage="Requiere imagen"/>
+                        <h:commandButton value="Subir" actionListener="#{conceptoTelIntBean.upload()}"/>
+                    </h:form>
+                </p:dialog>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+
+        <ui:composition template="./../../plantilla/Template.xhtml">
+            <ui:define name="content">
+                <h2>Subdepartamentos asignados</h2>
+                <h:form>
+                    <p:commandButton value="Agregar subdepartamento" 
+                                     style="width: 150px; height: 30px"
+                                     actionListener="#{CategoriaBean.prepararNuevaCategoria()}"
+                                     oncomplete="PF('dialogNuevoUsuario').show();" 
+                                     update=":frmNuevoUsuario">
+                    </p:commandButton>
+                </h:form>
+                <br></br>
+
+                <h:form id="frmUsuario">   
+
+                    <p:dataTable id="tablaUsuario" currentPageReportTemplate="{totalRecords}Registros" rowsPerPageTemplate="10, 30, 50, 100, 200, 500" paginator="true" sortMode="multiple" rows="10" paginatorPosition="top" var="tbl" value="#{CategoriaBean.listaCategoria}">
+                        <f:facet name="header">
+                            TOTAL DE SUBDEPARTAMENTOS ASIGNADOS #{CategoriaBean.listaCategoria.size()}
+                        </f:facet>
+                        <p:ajax event="sort" skipChildren="false" />
+                        <p:column filterBy="#{tbl.subDepartamento}" sortBy="#{tbl.subDepartamento}" style="width: 150px" headerText="SubDepartamento">
+                            <h:outputText value="#{tbl.subDepartamento}"></h:outputText>
+                        </p:column>
+                        <p:column filterBy="#{tbl.usuario}" headerText="Usuario" sortBy="#{tbl.usuario}" style="width: 110px">
+                            <h:outputText value="#{tbl.usuario}"></h:outputText>
+                        </p:column>                                        
+                        <p:column headerText="Editar" style="width: 65px;">
+                            <p:commandButton value="Modificar" oncomplete="PF('dialogModificarUsuario').show();"
+                                             update="frmModificarUsuario">
+                                <f:setPropertyActionListener target="#{CategoriaBean.categoria}" value="#{tbl}"></f:setPropertyActionListener>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar" style="width: 65px;">
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarUsuario').show();"
+                                             update="frmElimiarUsuario">
+                                <f:setPropertyActionListener target="#{CategoriaBean.categoria}" value="#{tbl}"></f:setPropertyActionListener>                  
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>
+                </h:form>
+
+                <h:form id="frmNuevoUsuario">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>                   
+                    <p:dialog id="dlgnuevoUsuario" header="Agregar subdepartamento" widgetVar="dialogNuevoUsuario" resizable="false" 
+                              showEffect="puff" hideEffect="puff" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre del usuario"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{CategoriaBean.categoria.usuario}">
+                                <f:selectItem itemLabel="Selecione usuario" itemValue=""></f:selectItem>
+                                <f:selectItems value="#{CategoriaBean.listPorNombre}"></f:selectItems>
+                            </p:selectOneMenu> 
+                            <p:outputLabel value="Subdepartamento"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{CategoriaBean.categoria.subDepartamento}">
+                                <f:selectItem itemLabel="Selecione usuario" itemValue=""></f:selectItem>
+                                <f:selectItems value="#{CategoriaBean.listPorDepto}"></f:selectItems>
+                            </p:selectOneMenu> 
+                            <p:outputLabel value="Dropdown" for="dd"></p:outputLabel>
+                            <p:autoComplete id="dd" dropdown="true" value="Hola" completeMethod="#{CategoriaBean.listPorNombre}"></p:autoComplete>
+                        </p:panelGrid>
+
+                        <p:commandButton  value="Guardar" actionListener="#{CategoriaBean.nuevoCategoria()}" update="frmUsuario:tablaUsuario,mensaje" oncomplete="PF('dialogNuevoUsuario').hide();"></p:commandButton>
+                        <p:commandButton value="Cancelar" update="mensaje" oncomplete="PF('dialogNuevoUsuario').hide();"></p:commandButton>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmModificarUsuario">              
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl> 
+                    <p:dialog id="dlgModificarUsuario" header="Modificar usuario" widgetVar="dialogModificarUsuario" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+
+                            <p:outputLabel value="Subdepartamento"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{CategoriaBean.categoria.subDepartamento}">
+                                <f:selectItem itemLabel="Selecione usuario" itemValue=""></f:selectItem>
+                                <f:selectItems value="#{CategoriaBean.listPorDepto}"></f:selectItems>
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel value="Nombre del usuario"></p:outputLabel>
+                            <p:selectOneMenu required="true" style="width: 200px;" value="#{CategoriaBean.categoria.usuario}">
+                                <f:selectItem itemLabel="Selecione usuario" itemValue=""></f:selectItem>
+                                <f:selectItems value="#{CategoriaBean.listPorNombre}"></f:selectItems>
+                            </p:selectOneMenu> 
+                        </p:panelGrid>
+                        <br></br>
+
+                        <p:commandButton value="Cancelar"  style="width: 100px;" oncomplete="PF('dialogModificarUsuario').hide();"></p:commandButton>
+                        <p:commandButton value="Guardar" actionListener="#{CategoriaBean.modificarCategoria()}" update="frmUsuario:tablaUsuario, mensaje" style="width: 100px;" oncomplete="PF('dialogModificarUsuario').hide();"></p:commandButton>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="frmElimiarUsuario">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog id="dlgEliminarUsuario" header="Eliminar usuario" widgetVar="dialogEliminarUsuario" resizable="false" showEffect="clip" hideEffect="clip" modal="true">
+                        <h:outputText value="¿Desea eliminar este registro?   "></h:outputText>
+                        <p:commandButton value="Si" actionListener="#{CategoriaBean.eliminarCategoria()}" update="frmUsuario:tablaUsuario, mensaje" oncomplete="PF('dialogEliminarUsuario').hide();"></p:commandButton>
+                        <p:commandButton value="No" oncomplete="PF('dialogEliminarUsuario').hide();"></p:commandButton>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>        
+    </h:body>
+</html>

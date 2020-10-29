@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+<!--        <property name="hibernate.connection.url">jdbc:sqlserver://DESKTOP-9F4H95D\SQLEXPRESS;databaseName=gastos</property>
+        <property name="hibernate.connection.username">sa</property>
+        <property name="hibernate.connection.password">dmsistemas</property>-->
+        <property name="hibernate.connection.url">jdbc:sqlserver://ASPEL;databaseName=gastos</property>
+        <property name="hibernate.connection.username">gastos</property>
+        <property name="hibernate.connection.password">k1CruJ@raDix</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <mapping resource="mx/model/Foliopoliza.hbm.xml"/>
+        <mapping resource="mx/model/Lista.hbm.xml"/>
+        <mapping resource="mx/model/Bancos.hbm.xml"/>
+        <mapping resource="mx/model/Catalogo.hbm.xml"/>
+        <mapping resource="mx/model/Viaje.hbm.xml"/>
+        <mapping resource="mx/model/Usuario.hbm.xml"/>
+        <mapping resource="mx/model/Correos.hbm.xml"/>
+        <mapping resource="mx/model/Polizapagos.hbm.xml"/>
+        <mapping resource="mx/model/Concepto.hbm.xml"/>
+        <mapping resource="mx/model/Pagos.hbm.xml"/>
+        <mapping resource="mx/model/Poliza.hbm.xml"/>
+        <mapping resource="mx/model/Departamento.hbm.xml"/>
+        <mapping resource="mx/model/Cuenm01.hbm.xml"/>
+        <mapping resource="mx/model/Fpmultiple.hbm.xml"/>
+        <mapping resource="mx/model/Vendedor.hbm.xml"/>
+        <mapping resource="mx/model/Categoria.hbm.xml"/>
+        <mapping resource="mx/model/Partidas.hbm.xml"/>
+        <mapping resource="mx/model/xml.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

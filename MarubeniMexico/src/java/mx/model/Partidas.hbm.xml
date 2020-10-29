@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="mx.model.Partidas" table="partidas" schema="dbo" catalog="gastos" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="500" />
+        </property>
+        <property name="uuid" type="string">
+            <column name="uuid" length="50" />
+        </property>
+        <property name="precioUnitario" type="big_decimal">
+            <column name="precioUnitario" scale="4" />
+        </property>
+        <property name="cantidad" type="string">
+            <column name="cantidad" length="50" />
+        </property>
+        <property name="unidad" type="string">
+            <column name="unidad" length="50" />
+        </property>
+        <property name="claveUnidad" type="string">
+            <column name="claveUnidad" length="50" />
+        </property>
+        <property name="importe" type="big_decimal">
+            <column name="importe" scale="4" />
+        </property>
+    </class>
+</hibernate-mapping>

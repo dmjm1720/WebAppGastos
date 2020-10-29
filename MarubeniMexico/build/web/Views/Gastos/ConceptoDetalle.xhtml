@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../../plantilla/Template.xhtml">
+
+            <ui:define name="content">
+                <h2>Detalle general del gasto</h2>
+                <br></br>
+                <h:form id="frmConcepto"> 
+                    <p:dataTable id="tablaConcepto"  
+                                 paginatorPosition="top" 
+                                 var="tbl" value="#{conceptoDetalleBean.listaConcepto}">
+                        <f:facet name="header">
+                            Detalles
+                        </f:facet>
+                        <p:column headerText="Concepto">
+                            <h:outputText value="#{tbl.nombreConcepto}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="Importe">
+                            <h:outputText value="#{tbl.importe}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="IVA">
+                            <h:outputText value="#{tbl.iva}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="TUA">
+                            <h:outputText value="#{tbl.tua}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="Factura">
+                            <h:outputText value="#{tbl.factura}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="UUID">
+                            <h:outputText value="#{tbl.uuid}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="RFC">
+                            <h:outputText value="#{tbl.rfc}"></h:outputText>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{tbl.nombre}"></h:outputText>
+                        </p:column>                       
+                        <p:column headerText="Estatus SAT">
+                            <h:outputText value="#{tbl.estatus}"></h:outputText>
+                        </p:column>                       
+                        <p:column headerText="Total MXN">
+                            <h:outputText value="#{tbl.totalmxn}"></h:outputText>
+                        </p:column>                       
+                        <p:column headerText="Total USD">
+                            <h:outputText value="#{tbl.totalusd}"></h:outputText>
+                        </p:column>                       
+                        <p:column headerText="Comentario">
+                            <h:outputText value="#{tbl.comentario}"></h:outputText>
+                        </p:column>                        
+                        <p:column headerText="Editar" style="width: 65px;">
+                            <p:commandButton value="Modificar" oncomplete="PF('dialogModificarConcepto').show();"
+                                             update="frmModificarConcepto">
+                                <f:setPropertyActionListener target="#{conceptoDetalleBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar" style="width: 65px;">
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarConcepto').show();"
+                                             update="frmEliminarConcepto">
+                                <f:setPropertyActionListener target="#{conceptoDetalleBean.concepto}" value="#{tbl}"></f:setPropertyActionListener>                  
+                            </p:commandButton>
+                        </p:column>                     
+                    </p:dataTable>
+                </h:form>
+                <h:form id="frmModificarConcepto">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog id="dlgModificarConcepto" header="Modificar Concepto" widgetVar="dialogModificarConcepto" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="4" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre del concepto"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.nombreConcepto}"></p:inputText>
+                            <p:outputLabel value="Importe"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.importe}"></p:inputText>
+                            <p:outputLabel value="IVA"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.iva}"></p:inputText>
+                            <p:outputLabel value="TUA"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.tua}"></p:inputText>
+                            <p:outputLabel value="Factura"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.factura}"></p:inputText>
+                            <p:outputLabel value="UUID"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.uuid}"></p:inputText>
+                            <p:outputLabel value="RFC"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.rfc}"></p:inputText>
+                            <p:outputLabel value="Razoón Social"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.nombre}"></p:inputText>
+                            <p:outputLabel value="Total MXN"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.totalmxn}"></p:inputText>
+                            <p:outputLabel value="Total USD"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.totalusd}"></p:inputText>
+                            <p:outputLabel value="Comentario"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.comentario}"></p:inputText>
+                            <p:outputLabel value="Nombre usuario"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.nombreUsuario}"></p:inputText>
+                            <p:outputLabel value="Folio usuario"></p:outputLabel>
+                            <p:inputText value="#{conceptoDetalleBean.concepto.folioUsuario}"></p:inputText>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{conceptoDetalleBean.modificarConcepto()}" 
+                                         update="frmConcepto:tablaConcepto, mensaje" 
+                                         oncomplete="PF('dialogModificarConcepto').hide();"></p:commandButton>
+                        <p:commandButton value="Cancelar"                                         
+                                         oncomplete="PF('dialogModificarConcepto').hide();"></p:commandButton>
+                    </p:dialog>
+                </h:form>
+
+
+                <h:form id="frmEliminarConcepto">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog id="dlgEliminarConcepto" header="Eliminar concepto" widgetVar="dialogEliminarConcepto" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <h:outputText value="¿Desea eliminar este registro?   "></h:outputText>
+                        <p:commandButton value="Si" actionListener="#{conceptoDetalleBean.eliminarConcepto()}" 
+                                         update="frmConcepto:tablaConcepto, mensaje" 
+                                         oncomplete="PF('dialogEliminarConcepto').hide();"></p:commandButton>
+                        <p:commandButton value="No"                                         
+                                         oncomplete="PF('dialogEliminarConcepto').hide();"></p:commandButton>
+                    </p:dialog>
+                </h:form>
+
+
+
+                <h:form id="frmNuevoConcepto">
+                    <p:growl id="mensaje" showSummary="true" showDetail="true"></p:growl>
+                    <p:dialog id="dlgnuevoConcepto" header="Agregar concepto" widgetVar="dialogNuevoConcepto" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="4" style="margin: 0 auto">
+                            <p:outputLabel value="Nombre concepto *"></p:outputLabel>
+                            <p:inputText style="width: 200px;" value="#{conceptoDetalleBean.concepto.nombreConcepto}"
+                                         required="true" placeholder="Ingrese cocepto"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                            <p:outputLabel value="Importe"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.importe}"
+                                         required="true" placeholder="Ingrese importe"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                            <p:outputLabel value="IVA"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.iva}"
+                                         required="true" placeholder="Ingrese IVA">
+                            </p:inputText>
+                            <p:outputLabel value="TUA"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.tua}"
+                                         required="true" placeholder="Ingrese TUA"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                            <p:outputLabel value="Factura"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.factura}"
+                                         required="true" placeholder="ingrese departamaneto" 
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                            <p:outputLabel value="UUID"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.uuid}"
+                                         required="true" placeholder="Ingrese UUID"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+
+                            <p:outputLabel value="RFC"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.rfc}"
+                                         required="true" placeholder="Ingrese rfc" 
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+
+                            <p:outputLabel value="Nombre"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.nombre}" 
+                                         required="true" placeholder="Ingrese nombre"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                            <p:outputLabel value="Total MXN"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.totalmxn}" 
+                                         required="true" placeholder="Ingrese total MXN"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                            <p:outputLabel value="Total USD"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.totalusd}" 
+                                         required="true" placeholder="Ingrese total USD"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                            <p:outputLabel value="Comentario"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.comentario}" 
+                                         required="true" placeholder="Ingrese comentario"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+
+                            <p:outputLabel value="Folio"></p:outputLabel>
+                            <p:inputText style="width: 150px;" value="#{conceptoDetalleBean.concepto.folioUsuario}" 
+                                         required="true" placeholder="Ingrese folio"
+                                         onkeyup="javascript:this.value = this.value.toUpperCase();">
+                            </p:inputText>
+                        </p:panelGrid>
+                        <br></br>
+                        <br></br>
+                        <p:commandButton  value="Guardar" actionListener="#{conceptoDetalleBean.nuevoConcepto()}" 
+                                          update="frmConcepto:tablaConcepto,mensaje" 
+                                          oncomplete="PF('dialogNuevoConcepto').hide();"></p:commandButton>
+                        <p:commandButton value="Cancelar" update="mensaje"                                        
+                                         oncomplete="PF('dialogNuevoConcepto').hide();"></p:commandButton>
+                    </p:dialog>
+
+                </h:form>  
+                
+                
+                                                              
+            
+                <!--Para subir el archivo XML-->
+                <h:form id="frmLeerXML">
+                    <p:growl id="mensaje" 
+                             life="10000"
+                             showSummary="true" 
+                             showDetail="true">                     
+                    </p:growl>
+                    <p:dialog id="dlgnuevoConcepto" header="Leer XML renta de auto" widgetVar="dialogLeerXML" resizable="false" 
+                              showEffect="clip" hideEffect="clip" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto">
+                            <h:form id="form">
+                                <p:growl id="mensajes" showSummary="true" showDetail="true"></p:growl>
+                                <p:fileUpload fileUploadListener="#{FileUploadAutoBean.upload}"  
+                                              allowTypes="/(\.|\/)(xml|pdf)$/"
+                                              multiple="false" 
+                                              mode="advanced" 
+                                              update="mensajes"
+                                              sizeLimit="900000">
+                                </p:fileUpload>                                
+                            </h:form>       
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Cerrar" 
+                                         update="frmConcepto:tablaConcepto"
+                                         oncomplete="PF('dialogLeerXML').hide();">                                             
+                        </p:commandButton>
+                    </p:dialog>
+
+                </h:form>
+
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
