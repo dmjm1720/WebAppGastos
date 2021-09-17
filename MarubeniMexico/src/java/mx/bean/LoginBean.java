@@ -57,8 +57,9 @@ public class LoginBean extends mx.conexion.DAO implements Serializable {
         String array = "";
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.setAttribute("array", array);
-        /* 58 */ boolean loggedIn = false;
-        String ruta = "/WebAppGastos/Views/Gastos/CapturaViaje.jsf";
+         boolean loggedIn = false;
+        //String ruta = "/WebAppGastos/Views/Gastos/CapturaViaje.jsf"; wf17
+        String ruta = "/Views/Gastos/CapturaViaje.jsf";
         LoginDao uDao = new LoginUsuarioImpl();
         this.usuario = uDao.login(this.usuario);
 

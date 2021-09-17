@@ -27,5 +27,7 @@ public interface ConceptoDao {
     public List<Concepto> listaConceptoBorrar(String nombre, String folio);
 
     public List<Concepto> listaConceptoViaje(String nombre, String folio);
+    
+    public List<Concepto> listaConceptoReporte(String f1, String f2);
 
 }

@@ -137,5 +137,8 @@
         <property name="imagen" type="binary">
             <column name="imagen" />
         </property>
+        <property name="fechaDocumento" type="date">
+            <column name="fechaDocumento" length="10" />
+        </property>
     </class>
 </hibernate-mapping>

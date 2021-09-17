@@ -184,7 +184,7 @@ public class ConceptoDaoImpl implements mx.dao.ConceptoDao {
         Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String hql = "FROM Concepto WHERE nombreUsuario='" + nombre + "'  AND folioUsuario='" + folio +"'";
+        String hql = "FROM Concepto WHERE nombreUsuario='" + nombre + "'  AND folioUsuario='" + folio + "'";
         try {
             lista = session.createQuery(hql).list();
             t.commit();
@@ -200,13 +200,30 @@ public class ConceptoDaoImpl implements mx.dao.ConceptoDao {
         List<Concepto> lista = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String hql = "FROM Concepto WHERE nombreUsuario='" + nombre + "'  AND folioUsuario='" + folio +"'";
+        String hql = "FROM Concepto WHERE nombreUsuario='" + nombre + "'  AND folioUsuario='" + folio + "'";
         try {
             lista = session.createQuery(hql).list();
             t.commit();
             session.close();
         } catch (HibernateException e) {
             System.err.println(e.getMessage());
+            t.rollback();
+        }
+        return lista;
+    }
+
+    @Override
+    public List<Concepto> listaConceptoReporte(String f1, String f2) {
+        List<Concepto> lista = null;
+        Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String hql = "FROM Concepto WHERE fechaDocumento>='" + f1 + "' AND fechaDocumento <='" + f2 + "'";
+        try {
+            lista = session.createQuery(hql).list();
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
             t.rollback();
         }
         return lista;

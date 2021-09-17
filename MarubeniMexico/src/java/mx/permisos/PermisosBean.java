@@ -61,6 +61,14 @@ public class PermisosBean implements java.io.Serializable {
             cuartoSubmenu.addElement(item);
 
             this.model.addElement(cuartoSubmenu);
+            
+            DefaultSubMenu quintoSubmenu = new DefaultSubMenu("Reportes");
+            item = new DefaultMenuItem("Reportes");
+            item.setIcon("ui-icon-disk");
+            item.setOutcome("/Views/Gastos/Reportes.jsf");
+            quintoSubmenu.addElement(item);
+
+            this.model.addElement(quintoSubmenu);
 
         } else if (this.us.getCodigoPerfil().equals("Usuario")) {
             DefaultSubMenu primerSubmenu = new DefaultSubMenu("Inicio");

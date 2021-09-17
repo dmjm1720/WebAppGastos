@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <link href="../../resources/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+    </h:head>
+
+    <h:body>
+        <p:idleMonitor  onactive="PF('sessionTimeOutDialog').show()" timeout="1800000" />
+        <p:dialog style="font-size: 15px;" header="Sistema de Gastos Marubeni México" widgetVar="sessionTimeOutDialog" 
+                  modal="true" closable="false" width="775" height="280" resizable="false" visible="false">                    
+            <img src="../../Images/expired.png" alt=""/><br></br><br></br><br></br>
+            <h:outputText style="color: #CC0505; font-size: 16px; " value="Tu sesión actual ha expirado, para continuar cierra esta ventana o presiona F5 y vuelve a iniciar sesión." />
+        </p:dialog>
+        <br/>
+        <br/>
+        <br/>
+        <h:form id="frmToolbar">
+
+            <b:panel title="Marubeni México - Reporte deducibles" collapsible="false">
+                <table border="0">
+                    <tbody>
+                        <tr style="font-size: 16px">
+                            <td><b:label severity="success" value="Fecha inicial"/></td>
+                            <td style="width: 5px"></td>
+                            <td><b:label severity="success" value="Fecha final"/></td>
+                            <td style="width: 5px"></td>
+                            <td><b:label value=""/></td>
+                        </tr>
+                        <tr>
+                            <td><b:dateTimePicker id="f1" style="width: 200px;" 
+                                                  format="MM/DD/YYYY" 
+                                                  locale="es" 
+                                                  value="#{repBean.fecha1}" 
+                                                  required="true"
+                                                  requiredMessage="Fecha inicial requerida"/>
+                                <b:message for="f1" autoUpdate="true" display="true" showDetail="true"/>
+                            </td>
+                            <td></td>
+                            <td> <b:dateTimePicker id="f2" style="width: 200px;" 
+                                                   format="MM/DD/YYYY" 
+                                                   locale="es" value="#{repBean.fecha2}" 
+                                                   required="true"
+                                                   requiredMessage="Fecha final requerida"/>
+                                <b:message for="f2" autoUpdate="true" display="true" showDetail="true"/>
+                            </td>
+                            <td></td>
+                            <td> <b:commandButton look="warning" 
+                                                  value="Buscar" 
+                                                  update="frmReporte:tblReporte" 
+                                                  actionListener="#{repBean.buscarPorFecha()}" style="font-size: 16px !important"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </b:panel>
+
+
+        </h:form>
+
+        <b:panel title="Reporte" collapsible="false">
+            <b:form id="frmReporte">
+                <b:dataTable id="tblReporte" value="#{repBean.lista}"
+                             var="tbl"
+                             excel="true"
+                             csv="true"
+                             pdf="true"
+                             columnVisibility="true"
+                             copy="true"
+                             print="true">
+                    <b:dataTableColumn value="#{tbl.fechaDocumento}" label="Fecha" />
+                    <b:dataTableColumn value="#{tbl.nombreConcepto}" label="Concepto" />
+                    <b:dataTableColumn value="#{tbl.factura}" label="Factura"/>
+                    <b:dataTableColumn value="#{tbl.importe}" label="Importe"/>
+                    <b:dataTableColumn value="#{tbl.iva}" label="IVA"/>
+                    <b:dataTableColumn value="#{tbl.tua}" label="TUA"/>
+                    <b:dataTableColumn value="#{tbl.ish}" label="ISH"/>
+                    <b:dataTableColumn value="#{tbl.propina}" label="Propina"/>
+                    <b:dataTableColumn value="#{tbl.totalmxn}" label="Total"/>
+                    <b:dataTableColumn value="#{tbl.rfc}" label="RFC"/>
+                    <b:dataTableColumn value="#{tbl.nombre}" label="Nombre"/>
+                    <b:dataTableColumn value="#{tbl.nombreUsuario}" label="Usuario"/>
+                    <b:dataTableColumn value="#{tbl.folioUsuario}" label="Folio"/>
+                    <b:dataTableColumn value="#{tbl.departamento}" label="Departemento"/>
+                    <b:dataTableColumn value="#{tbl.tipo}" label="Tipo"/>
+                </b:dataTable>
+            </b:form>
+        </b:panel>
+
+
+
+    </h:body>    
+</html>
