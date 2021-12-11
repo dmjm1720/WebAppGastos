@@ -50,8 +50,8 @@ public class ObjectFactory {
     private final static QName _QName_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "QName");
     private final static QName _AnyType_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "anyType");
     private final static QName _String_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "string");
-    private final static QName _ConsultaResponseConsultaResult_QNAME = new QName("http://tempuri.org/", "ConsultaResult");
     private final static QName _ConsultaExpresionImpresa_QNAME = new QName("http://tempuri.org/", "expresionImpresa");
+    private final static QName _ConsultaResponseConsultaResult_QNAME = new QName("http://tempuri.org/", "ConsultaResult");
     private final static QName _AcuseCodigoEstatus_QNAME = new QName("http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", "CodigoEstatus");
     private final static QName _AcuseEstado_QNAME = new QName("http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", "Estado");
 
@@ -285,21 +285,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Acuse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://tempuri.org/", name = "ConsultaResult", scope = ConsultaResponse.class)
-    public JAXBElement<Acuse> createConsultaResponseConsultaResult(Acuse value) {
-        return new JAXBElement<Acuse>(_ConsultaResponseConsultaResult_QNAME, Acuse.class, ConsultaResponse.class, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://tempuri.org/", name = "expresionImpresa", scope = Consulta.class)
     public JAXBElement<String> createConsultaExpresionImpresa(String value) {
         return new JAXBElement<String>(_ConsultaExpresionImpresa_QNAME, String.class, Consulta.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Acuse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://tempuri.org/", name = "ConsultaResult", scope = ConsultaResponse.class)
+    public JAXBElement<Acuse> createConsultaResponseConsultaResult(Acuse value) {
+        return new JAXBElement<Acuse>(_ConsultaResponseConsultaResult_QNAME, Acuse.class, ConsultaResponse.class, value);
     }
 
     /**

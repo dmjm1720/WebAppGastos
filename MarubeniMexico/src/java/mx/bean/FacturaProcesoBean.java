@@ -970,7 +970,7 @@
 //    Properties props = new Properties();
 //    props.put("mail.smtp.host", "p3plcpnl0612.prod.phx3.secureserver.net");
 //    props.setProperty("mail.smtp.starttls.enable", "true");
-//    props.setProperty("mail.smtp.port", "587");
+//    props.setProperty("mail.smtp.port", "465");
 //    props.setProperty("mail.smtp.user", "alertas1@insoftec.com");
 //    props.setProperty("mail.smtp.auth", "true");
 //    Session session = Session.getDefaultInstance(props, null);

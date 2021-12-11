@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/src/java/mx/dao/ConceptoDao.java</file>
-            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/web/Views/Gastos/ConceptoAvion.xhtml</file>
-            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/web/Views/Gastos/Reportes.xhtml</file>
-            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/src/java/mx/impl/ConceptoDaoImpl.java</file>
-            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/web/plantilla/Template.xhtml</file>
-            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/src/java/mx/bean/ReportesBean.java</file>
+            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/src/java/mx/conexion/DAO.java</file>
+            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/src/java/mx/model/Viaje.hbm.xml</file>
+            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/src/java/hibernate.cfg.xml</file>
+            <file>file:/C:/Users/DM-SISTEMAS/Documents/NuevoGitProjects/DEVS_MG/MarubeniMexico/src/java/mx/model/Concepto.hbm.xml</file>
         </group>
     </open-files>
 </project-private>

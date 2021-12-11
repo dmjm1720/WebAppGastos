@@ -235,10 +235,10 @@ public class verificarcorreo {
         String correo = us.getCorreo();
         String nombre = us.getNombre();
         Properties props = new Properties();
-        props.put("mail.smtp.host", "mail.grupocomercialtria.com.mx");
+        props.put("mail.smtp.host", "smtp.office365.com");
         props.setProperty("mail.smtp.starttls.enable", "true");
         props.setProperty("mail.smtp.port", "587");
-        props.setProperty("mail.smtp.user", "validaciones@grupocomercialtria.com.mx");
+        props.setProperty("mail.smtp.user", "portal@marubeni.com.mx");
         props.setProperty("mail.smtp.auth", "true");
         Session session = Session.getDefaultInstance(props, null);
         session.setDebug(true);
@@ -295,21 +295,21 @@ public class verificarcorreo {
         MimeMessage message = new MimeMessage(session);
 
 // Se rellena el From
-        message.setFrom(new InternetAddress("validaciones@grupocomercialtria.com.mx"));
+        message.setFrom(new InternetAddress("portal@marubeni.com.mx"));
 
 //recepcion@digibox.com.mx
         message.addRecipients(Message.RecipientType.TO, correo);
         message.addRecipients(Message.RecipientType.CC, "Martinez-R@marubeni.com");
-        message.addRecipients(Message.RecipientType.CC, "desarrollo1@grupocomercialtria.com.mx");
+        message.addRecipients(Message.RecipientType.CC, "portal@marubeni.com.mx");
 
 // Se rellena el subject
-        message.setSubject("Sistema de Cobranza Marubeni");
+        message.setSubject("Sistema de Gastos Marubeni");
 
 // Se mete el texto y la foto adjunta.
         message.setContent(multiParte);
 
         Transport t = session.getTransport("smtp");
-        t.connect("validaciones@grupocomercialtria.com.mx", "WK4iaKFhAj");
+        t.connect("portal@marubeni.com.mx", "Gastos$0912");
         t.sendMessage(message, message.getAllRecipients());
         t.close();
     }

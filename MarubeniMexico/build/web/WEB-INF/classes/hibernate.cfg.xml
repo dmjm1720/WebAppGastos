@@ -6,7 +6,12 @@
         <property name="hibernate.connection.url">jdbc:sqlserver://DESKTOP-557O6CE\SQLEXPRESS;databaseName=gastos</property>
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password">dmsistemas</property>
-<!--        <property name="hibernate.connection.url">jdbc:sqlserver://ASPEL;databaseName=gastos</property>
+        <!--        //ny-->
+        <!--        <property name="hibernate.connection.url">jdbc:sqlserver://10.220.221.158\SQLEXPRESS;databaseName=gastos</property>
+        <property name="hibernate.connection.username">gastos_usrdb</property>
+        <property name="hibernate.connection.password">k1CruJ@raDix</property>-->
+        
+        <!--        <property name="hibernate.connection.url">jdbc:sqlserver://ASPEL;databaseName=gastos</property>
         <property name="hibernate.connection.username">gastos</property>
         <property name="hibernate.connection.password">k1CruJ@raDix</property>-->
         

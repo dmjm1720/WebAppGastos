@@ -35,10 +35,10 @@ public class correodigibox {
         SimpleDateFormat formateador = new SimpleDateFormat("dd-MMMM-yyyy");//Formato para fecha en Español-España SQL Server 2012
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "mail.grupocomercialtria.com.mx");
+        props.put("mail.smtp.host", "smtp.office365.com");
         props.setProperty("mail.smtp.starttls.enable", "true");
         props.setProperty("mail.smtp.port", "587");
-        props.setProperty("mail.smtp.user", "validaciones@grupocomercialtria.com.mx");
+        props.setProperty("mail.smtp.user", "portal@marubeni.com.mx");
         props.setProperty("mail.smtp.auth", "true");
         Session session = Session.getDefaultInstance(props, null);
         session.setDebug(false);
@@ -87,21 +87,12 @@ public class correodigibox {
         MimeMessage message = new MimeMessage(session);
 
 // Se rellena el From
-        message.setFrom(new InternetAddress("validaciones@grupocomercialtria.com.mx"));
+        message.setFrom(new InternetAddress("portal@marubeni.com.mx"));
 
-//// Se rellenan los destinatarios
-//        for (int i = 0; i < listaVendedor.size(); i++) {
-//            message.addRecipient(Message.RecipientType.TO, new InternetAddress(listaVendedor.get(i)));
-//        }
-//recepcion@digibox.com.mx
+
         message.addRecipients(Message.RecipientType.TO, "recepcion@digibox.com.mx");
-        message.addRecipients(Message.RecipientType.TO, "validaciones@grupocomercialtria.com.mx");
-        // message.addRecipients(Message.RecipientType.TO, "desarrollo1@grupocomercialtria.com.mx");
-//        message.addRecipients(Message.RecipientType.CC, "Martinez-R@marubeni.com");
-//        message.addRecipients(Message.RecipientType.CC, "Solano-H@marubeni.com");
-//        message.addRecipients(Message.RecipientType.CC, "Nakasone-A@marubeni.com");
-//        message.addRecipients(Message.RecipientType.CC, "Balderas-F@marubeni.com");
-//        message.addRecipients(Message.RecipientType.BCC, "alertas@grupocomercialtria.com.mx");
+        message.addRecipients(Message.RecipientType.TO, "portal@marubeni.com.mx");
+
 
 // Se rellena el subject
         message.setSubject("Sistema de Gastos Marubeni");
@@ -110,7 +101,7 @@ public class correodigibox {
         message.setContent(multiParte);
 
         Transport t = session.getTransport("smtp");
-        t.connect("validaciones@grupocomercialtria.com.mx", "WK4iaKFhAj");
+        t.connect("portal@marubeni.com.mx", "Gastos$0912");
         t.sendMessage(message, message.getAllRecipients());
         t.close();
     }

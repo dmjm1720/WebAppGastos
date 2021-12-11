@@ -535,14 +535,13 @@ public class ViajeBean extends DAO implements java.io.Serializable {
         SimpleDateFormat formateador = new SimpleDateFormat("dd-MMMM-yyyy");
         this.fechaPago = formateador.format(this.hoy.getTime());
         Properties props = new Properties();
-        props.put("mail.smtp.host", "mail.grupocomercialtria.com.mx");
+        props.put("mail.smtp.host", "smtp.office365.com");
         props.setProperty("mail.smtp.starttls.enable", "true");
         props.setProperty("mail.smtp.port", "587");
-        props.setProperty("mail.smtp.user", "validaciones@grupocomercialtria.com.mx");
+        props.setProperty("mail.smtp.user", "portal@marubeni.com.mx");
         props.setProperty("mail.smtp.auth", "true");
         Session session = Session.getDefaultInstance(props, null);
-        session.setDebug(false);
-
+        session.setDebug(true);
         BodyPart texto = new MimeBodyPart();
         texto.setContent("<html><head><title></title></head><body><table width='678' height='315' border='0' bordercolor='#0000FF' bgcolor='#FFFFFF'><tr><td height='50' colspan='3' bordercolor='#FFFFFF'><br><br></td></tr><tr><td colspan='3' bordercolor='#FFFFFF'><p align='left' style='font-family:calibri; font-size:17px'><font color='#086A87'>El usuario ha concluido la captura de gastos de viaje para su proceso de revisi&oacute;n: </font><br><br><font color='#17202a'>Folio Usuario: </font><i><font color='#086A87'> " + this.viaje
                 .getDepartamento().substring(0, 2) + "-" + this.viaje.getNombreViajero() + "-" + this.viaje.getFechaAno().toString().trim() + "-" + this.viaje.getFolioUsuario() + "</font></i> <br><font color='#17202a'>Tipo de Viaje:</font> <font color='#086A87'><i> " + this.viaje
@@ -566,20 +565,20 @@ public class ViajeBean extends DAO implements java.io.Serializable {
 
         MimeMessage message = new MimeMessage(session);
 
-        message.setFrom(new InternetAddress("validaciones@grupocomercialtria.com.mx"));
+        message.setFrom(new InternetAddress("portal@marubeni.com.mx"));
 
-        //message.addRecipients(Message.RecipientType.CC, "desarrollo1@grupocomercialtria.com.mx");
+
         message.addRecipients(Message.RecipientType.TO, us.getCorreo());
         message.addRecipient(Message.RecipientType.CC, new InternetAddress("Solano-H@marubeni.com"));
         message.addRecipient(Message.RecipientType.CC, new InternetAddress("Martinez-R@marubeni.com"));
-        message.addRecipient(Message.RecipientType.BCC, new InternetAddress("alertas@grupocomercialtria.com.mx"));
+        message.addRecipient(Message.RecipientType.BCC, new InternetAddress("portal@marubeni.com.mx"));
 
         message.setSubject("Gastos de Viaje Marubeni");
 
         message.setContent(multiParte);
 
         Transport t = session.getTransport("smtp");
-        t.connect("validaciones@grupocomercialtria.com.mx", "WK4iaKFhAj");
+        t.connect("portal@marubeni.com.mx", "Gastos$0912");
         t.sendMessage(message, message.getAllRecipients());
         aviso();
         t.close();
