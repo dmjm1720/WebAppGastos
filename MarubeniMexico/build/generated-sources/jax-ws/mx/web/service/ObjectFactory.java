@@ -50,10 +50,10 @@ public class ObjectFactory {
     private final static QName _QName_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "QName");
     private final static QName _AnyType_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "anyType");
     private final static QName _String_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/", "string");
-    private final static QName _ConsultaExpresionImpresa_QNAME = new QName("http://tempuri.org/", "expresionImpresa");
-    private final static QName _ConsultaResponseConsultaResult_QNAME = new QName("http://tempuri.org/", "ConsultaResult");
     private final static QName _AcuseCodigoEstatus_QNAME = new QName("http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", "CodigoEstatus");
     private final static QName _AcuseEstado_QNAME = new QName("http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", "Estado");
+    private final static QName _ConsultaResponseConsultaResult_QNAME = new QName("http://tempuri.org/", "ConsultaResult");
+    private final static QName _ConsultaExpresionImpresa_QNAME = new QName("http://tempuri.org/", "expresionImpresa");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mx.web.service
@@ -288,9 +288,18 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://tempuri.org/", name = "expresionImpresa", scope = Consulta.class)
-    public JAXBElement<String> createConsultaExpresionImpresa(String value) {
-        return new JAXBElement<String>(_ConsultaExpresionImpresa_QNAME, String.class, Consulta.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", name = "CodigoEstatus", scope = Acuse.class)
+    public JAXBElement<String> createAcuseCodigoEstatus(String value) {
+        return new JAXBElement<String>(_AcuseCodigoEstatus_QNAME, String.class, Acuse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", name = "Estado", scope = Acuse.class)
+    public JAXBElement<String> createAcuseEstado(String value) {
+        return new JAXBElement<String>(_AcuseEstado_QNAME, String.class, Acuse.class, value);
     }
 
     /**
@@ -306,18 +315,9 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", name = "CodigoEstatus", scope = Acuse.class)
-    public JAXBElement<String> createAcuseCodigoEstatus(String value) {
-        return new JAXBElement<String>(_AcuseCodigoEstatus_QNAME, String.class, Acuse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Sat.Cfdi.Negocio.ConsultaCfdi.Servicio", name = "Estado", scope = Acuse.class)
-    public JAXBElement<String> createAcuseEstado(String value) {
-        return new JAXBElement<String>(_AcuseEstado_QNAME, String.class, Acuse.class, value);
+    @XmlElementDecl(namespace = "http://tempuri.org/", name = "expresionImpresa", scope = Consulta.class)
+    public JAXBElement<String> createConsultaExpresionImpresa(String value) {
+        return new JAXBElement<String>(_ConsultaExpresionImpresa_QNAME, String.class, Consulta.class, value);
     }
 
 }

@@ -578,7 +578,7 @@ public class ViajeBean extends DAO implements java.io.Serializable {
         message.setContent(multiParte);
 
         Transport t = session.getTransport("smtp");
-        t.connect("portal@marubeni.com.mx", "Gastos$0912");
+        t.connect("portal@marubeni.com.mx", "Gastos$0914");
         t.sendMessage(message, message.getAllRecipients());
         aviso();
         t.close();
