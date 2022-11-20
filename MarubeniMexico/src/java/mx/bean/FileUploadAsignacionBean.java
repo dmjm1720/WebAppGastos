@@ -144,13 +144,13 @@ public class FileUploadAsignacionBean extends DAO implements java.io.Serializabl
             RequestContext.getCurrentInstance().execute("PF('dlg3').hide()");
             submit();
             Cerrar();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/Views/Gastos/ConceptoAsigna.jsf");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/WebAppGastos/Views/Gastos/ConceptoAsigna.jsf");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public String submit() {
-        return "/ConceptoAsigna.xhtml?faces-redirect=true";
+        return "/WebAppGastos/ConceptoAsigna.xhtml?faces-redirect=true";
     }
 }

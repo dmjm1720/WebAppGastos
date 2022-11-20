@@ -10,7 +10,7 @@
     </h:head>
     <h:body>
         <div class="login">
-            <h:form id="formLogin" style="text-align: center">            
+            <h:form id="formLogin" style="text-align: center" >            
                 <p:growl id="mensajeGeneral" 
                          sticky="true"
                          autoUpdate="true"
@@ -26,13 +26,21 @@
                         <h:graphicImage url="/Images/user.ico" ></h:graphicImage>
                         <p:inputText id="usuario" style="width: 250px" value="#{loginBean.usuario.nombre}" placeholder="Ingresa tu usuario" required="true" label="username" requiredMessage="Requiere Usuario" onkeyup="javascript:this.value = this.value.toUpperCase();"/>
                         <h:graphicImage url="/Images/password.ico" ></h:graphicImage>
-                        <p:password id="password" style="width: 250px;" placeholder="Ingresa tu password" value="#{loginBean.usuario.clave}" required="true" label="password" requiredMessage="Requiere Password"/>
+                        <p:password id="password" style="width: 250px;" 
+                                    placeholder="Ingresa tu password" 
+                                    value="#{loginBean.usuario.clave}" 
+                                    required="true" 
+                                    label="password" 
+                                    requiredMessage="Requiere Password">
+                        </p:password>
                         <f:facet name="footer">
                             <p:commandButton id="inicio"
                                              update="@all"
                                              style="height: 40px; width: 80px; background-image: url('Images/sso-icon.png');background-size: 30px; background-repeat: no-repeat"
                                              value="" 
-                                             actionListener="#{loginBean.login()}">
+                                             actionListener="#{loginBean.login()}"
+                                             >
+                               
                             </p:commandButton>
                             <p:tooltip id="toolTipTrack" for="inicio" value="Iniciar sesión" trackMouse="true"></p:tooltip>
                             <p:tooltip id="toolTipTrack1" for="password" value="Introduce tu contraseña" trackMouse="true"></p:tooltip>

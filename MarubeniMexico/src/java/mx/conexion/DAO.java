@@ -290,7 +290,7 @@ public class DAO {
             //NY            
             this.cn = DriverManager.getConnection("jdbc:sqlserver://10.220.221.158\\SQLEXPRESS;databaseName=gastos", "gastos_usrdb", "k1CruJ@raDix");
             //this.cn = DriverManager.getConnection("jdbc:sqlserver://ASPEL;databaseName=gastos", "gastos", "k1CruJ@raDix");
-            //this.cn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-557O6CE\\SQLEXPRESS;databaseName=gastos", "sa", "dmsistemas");
+            //this.cn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-9TOA5T5\\SQLEXPRESS;databaseName=gastos", "sa", "dev22");
         } catch (ClassNotFoundException | SQLException e) {
         }
 
@@ -307,25 +307,7 @@ public class DAO {
         }
     }
 
-//    public void ConectarSAE() {
-//        try {
-//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//            this.cnSAE = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-9F4H95D\\SQLEXPRESS;databaseName=SAE70Empre01", "sa", "dmsistemas");
-//            //this.cnSAE = DriverManager.getConnection("jdbc:sqlserver://ASPEL;databaseName=SAE70Empre01", "gastos", "k1CruJ@raDix");
-//        } catch (ClassNotFoundException | SQLException e) {
-//        }
-//    }
-//
-//    public void CerrarSAE() throws SQLException {
-//        try {
-//            if ((this.cnSAE != null)
-//                    && (!this.cnSAE.isClosed())) {
-//                this.cnSAE.close();
-//            }
-//        } catch (SQLException e) {
-//            throw e;
-//        }
-//    }
+
     public DAO() {
         this.lista = new ArrayList();
         this.part = new Partidas();
