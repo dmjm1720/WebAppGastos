@@ -74,15 +74,15 @@ public class correodigibox {
         BodyPart imagen2 = new MimeBodyPart();
         DataSource fds = new FileDataSource("C:\\img\\marubeni-logo.png");
         DataSource fds1 = new FileDataSource("C:\\img\\azul.png");
-        imagen.setDataHandler(new DataHandler(fds));
-        imagen2.setDataHandler(new DataHandler(fds1));
-        imagen.setHeader("Content-ID", "<image>");
-        imagen2.setHeader("Content-ID", "<azul>");
+//        imagen.setDataHandler(new DataHandler(fds));
+//        imagen2.setDataHandler(new DataHandler(fds1));
+//        imagen.setHeader("Content-ID", "<image>");
+//        imagen2.setHeader("Content-ID", "<azul>");
 
         multiParte.addBodyPart(texto);
         multiParte.addBodyPart(adjunto);
-        multiParte.addBodyPart(imagen);
-        multiParte.addBodyPart(imagen2);
+       // multiParte.addBodyPart(imagen);
+       // multiParte.addBodyPart(imagen2);
 
         MimeMessage message = new MimeMessage(session);
 
@@ -101,7 +101,7 @@ public class correodigibox {
         message.setContent(multiParte);
 
         Transport t = session.getTransport("smtp");
-        t.connect("portal@marubeni.com.mx", "Gastos$0914");
+        t.connect("portal@marubeni.com.mx", "2023Sgyc$1959");
         t.sendMessage(message, message.getAllRecipients());
         t.close();
     }

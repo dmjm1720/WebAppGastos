@@ -3,9 +3,9 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name="hibernate.connection.url">jdbc:sqlserver://DESKTOP-9TOA5T5\SQLEXPRESS;databaseName=gastos</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://localhost;databaseName=gastos</property>
         <property name="hibernate.connection.username">sa</property>
-        <property name="hibernate.connection.password">dev22</property>
+        <property name="hibernate.connection.password">Pr4xi5A5a*</property>
         <!--        //ny-->
 <!--        <property name="hibernate.connection.url">jdbc:sqlserver://10.220.221.158\SQLEXPRESS;databaseName=gastos</property>
         <property name="hibernate.connection.username">gastos_usrdb</property>
