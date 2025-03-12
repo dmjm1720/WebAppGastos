@@ -20,6 +20,8 @@ public class Usuario implements java.io.Serializable {
     private String tarjetaGasolina;
     private String admonPoliza;
     private Date fechaAcceso;
+    private String token;
+    private Date tokenVigencia;
 
     public Usuario() {
     }
@@ -28,7 +30,7 @@ public class Usuario implements java.io.Serializable {
         this.nombre = nombre;
     }
 
-    public Usuario(String nombre, String correo, String codigoPerfil, String codigoDepartamento, String codigoSap, String folioUsuario, String clave, String asignacion, String asignacionusd, Date fechaAlta, Integer vigencia, String tarjetaCoorporativa, String estatus, String tarjetaGasolina, String admonPoliza, Date fechaAcceso) {
+    public Usuario(String nombre, String correo, String codigoPerfil, String codigoDepartamento, String codigoSap, String folioUsuario, String clave, String asignacion, String asignacionusd, Date fechaAlta, Integer vigencia, String tarjetaCoorporativa, String estatus, String tarjetaGasolina, String admonPoliza, Date fechaAcceso, String token, Date tokenVigencia) {
         this.nombre = nombre;
         this.correo = correo;
         this.codigoPerfil = codigoPerfil;
@@ -45,6 +47,8 @@ public class Usuario implements java.io.Serializable {
         this.tarjetaGasolina = tarjetaGasolina;
         this.admonPoliza = admonPoliza;
         this.fechaAcceso = fechaAcceso;
+        this.token = token;
+        this.tokenVigencia = tokenVigencia;
     }
 
     public String getNombre() {
@@ -174,6 +178,21 @@ public class Usuario implements java.io.Serializable {
     public void setFechaAcceso(Date fechaAcceso) {
         this.fechaAcceso = fechaAcceso;
     }
- }
 
+    public String getToken() {
+        return token;
+    }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Date getTokenVigencia() {
+        return tokenVigencia;
+    }
+
+    public void setTokenVigencia(Date tokenVigencia) {
+        this.tokenVigencia = tokenVigencia;
+    }
+
+}

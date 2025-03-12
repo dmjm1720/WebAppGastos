@@ -53,5 +53,11 @@
         <property name="fechaAcceso" type="date">
             <column name="fechaAcceso" length="10" />
         </property>
+        <property name="token" type="string">
+            <column name="token" length="6" />
+        </property>
+        <property name="tokenVigencia" type="timestamp">
+            <column name="tokenVigencia" length="23" />
+        </property>
     </class>
 </hibernate-mapping>

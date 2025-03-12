@@ -1,65 +1,101 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf">
     <h:head>
         <title>Login</title>
-        <h:outputStylesheet name="css/login1.css"></h:outputStylesheet>
+
+        <link href="resources/css/index.css" rel="stylesheet" type="text/css" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     </h:head>
-    <h:body>
-        <div class="login">
-            <h:form id="formLogin" style="text-align: center" >            
-                <p:growl id="mensajeGeneral" 
-                         sticky="true"
-                         autoUpdate="true"
-                         showDetail="true" 
-                         life="3000" />
-                <!--<p:messages id="mensajeGeneral" showDetail="true" autoUpdate="true"></p:messages>-->
-                <p:panel header="SISTEMA DE GASTOS" widgetVar="dlg">
-                    <br></br>
-                    <h:graphicImage url="/Images/marubeni-logo.png"></h:graphicImage>
-                    <br></br>
-                    <br></br>
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:graphicImage url="/Images/user.ico" ></h:graphicImage>
-                        <p:inputText id="usuario" style="width: 250px" value="#{loginBean.usuario.nombre}" placeholder="Ingresa tu usuario" required="true" label="username" requiredMessage="Requiere Usuario" onkeyup="javascript:this.value = this.value.toUpperCase();"/>
-                        <h:graphicImage url="/Images/password.ico" ></h:graphicImage>
-                        <p:password id="password" style="width: 250px;" 
-                                    placeholder="Ingresa tu password" 
-                                    value="#{loginBean.usuario.clave}" 
-                                    required="true" 
-                                    label="password" 
-                                    requiredMessage="Requiere Password">
-                        </p:password>
-                        <f:facet name="footer">
-                            <p:commandButton id="inicio"
-                                             update="@all"
-                                             style="height: 40px; width: 80px; background-image: url('Images/sso-icon.png');background-size: 30px; background-repeat: no-repeat"
-                                             value="" 
-                                             actionListener="#{loginBean.login()}"
-                                             >
-                               
-                            </p:commandButton>
-                            <p:tooltip id="toolTipTrack" for="inicio" value="Iniciar sesión" trackMouse="true"></p:tooltip>
-                            <p:tooltip id="toolTipTrack1" for="password" value="Introduce tu contraseña" trackMouse="true"></p:tooltip>
-                            <p:tooltip id="toolTipTrack2" for="usuario" value="Introduce tu usuario" trackMouse="true"></p:tooltip>
-                        </f:facet>  
-                    </h:panelGrid>
-                </p:panel>
-            </h:form>
-        </div>
+
+    <body>
+        <h:form id="frmMsg">
+            <section class="hero news alternate">
+                <div class="grid-container">
+                    <div class="cell">
+                        <div class="annotation">SISTEMA DE GASTOS
+                            Release 25.03.10</div>
+                        <h1>Marubeni México</h1>
+                    </div>
+                </div>
+            </section>
+
+        </h:form>
+
+
+
+        <h:form id="formLogin" class="modal-content logo-name"
+                style="text-align: center">
+            <p:blockUI block="formLogin" trigger="token" widgetVar="buiDatatable">
+                <img src="resources/imagenes/send.gif" style="width: 120px; height: 120px;" alt=""/>
+            </p:blockUI>
+            <p:growl id="mensaje" showSummary="true" life="50000"
+                     showDetail="true" />
+            <p:growl id="mensajeGral" sticky="true" showDetail="true" life="3000" />
+
+
+            <div class="imgcontainer">
+
+                <img src="resources/imagenes/login.png" alt="Login" class="avatar" />
+                <br></br> <br></br> <label for="uname"><b>USUARIO</b></label> <br></br>
+                <input id="usuario" type="text" name="uname" jsf:value="#{loginBean.usuario.nombre}"
+                       placeholder="Ingresa tu usuario" required="true" label="username" 
+                       jsf:requiredMessage="REQUIERE USUARIO" jsf:label="REQUIERE USUARIO" />
+                <label for="psw"><b>CONTRASEÑA</b></label> <input id="password" type="password" 
+                                                                  name="psw" placeholder="Ingresa tu contraseña"
+                                                                  jsf:value="#{loginBean.usuario.clave}" required="true"
+                                                                  jsf:label="REQUIERE CONTRASEÑA" label="password"
+                                                                  jsf:requiredMessage="REQUIERE PASSWORD" />
+                <p:commandButton id="token" value="Login"
+                                 actionListener="#{loginBean.validarPrimerIngreso()}" update="formLogin"
+                                 style="height: 40px; width: 160px;  font-size: 16px;"/>
+
+                <p:dialog id="dlgToken" widgetVar="dlgTokenUsr" modal="false"  showHeader="true"
+                          resizable="false" header="Ingresa tu token" width="500px" height="300px"
+                          showEffect="size" hideEffect="puff" closable="false"
+                          minimizable="false">
+  
+                        <p:inputText id="mitoken" style="width: 160px !important" value="#{loginBean.usuario.token}" 
+                                     placeholder="Ingresa Token" autocomplete="off"
+                                     onkeyup="javascript:this.value = this.value.toUpperCase();"/>
+                        <br></br>
+                        <p:commandButton id="inicio"
+                                         update="formLogin:mensaje"
+                                         style="height: 40px; width: 160px;"
+                                         value="Iniciar sesión" 
+                                         actionListener="#{loginBean.login()}"
+                                         >
+
+                        </p:commandButton>
+             
+                        <br></br>
+                        
+                </p:dialog>
+            </div>
+
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"
+                integrity="sha512-gmwBmiTVER57N3jYS3LinA9eb8aHrJua5iQD7yqYCKa5x6Jjc7VDVaEA0je0Lu0bP9j7tEjV3+1qUm6loO99Kw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+        </h:form>
+
         <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args) {
-                if (args.validationFailed || !args.loggedIn) {
-                    jQuery('#formLogin').jq.effect("shake", {times: 1}, 100);
-                } else {
-                    location.href = args.ruta;
-                }
-            }
+                                         function handleLoginRequest(xhr, status, args) {
+                                             if (args.validationFailed || !args.loggedIn) {
+                                                 jQuery('#formLogin').jq.effect("shake", {times: 1}, 100);
+                                             } else {
+                                                 location.href = args.ruta;
+                                             }
+                                         }
         </script>
 
-    </h:body>
-</html>
+    </body>
 
+</html>
